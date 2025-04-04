@@ -41,7 +41,7 @@ public class BookRecordController {
 		BookRecord bookRecord = bookRecordService.findByIdBookRecord(id);
 		if (bookRecord != null) {
 			//対象データがある場合はモデルに格納
-			model.addAttribute("bookrecordtable", bookRecordService.findByIdBookRecord(id));
+			model.addAttribute("bookrecord", bookRecordService.findByIdBookRecord(id));
 			return "bookrecord/detail";
 		} else {
 			//対象データがない場合はフラッシュメッセージを設定
@@ -67,7 +67,7 @@ public class BookRecordController {
 	@PostMapping("/save")
 	public String create(BookRecordForm form, RedirectAttributes attributes) {
 		//エンティティへの変換
-		BookRecord book = BookRecordHelper.convertoBookRecord(form);
+		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//登録実行
 		bookRecordService.insertBookRecord(book);
 		//フラッシュメッセージ
@@ -92,7 +92,7 @@ public class BookRecordController {
 			//対象データがない場合はフラッシュメッセージを設定
 			attributes.addFlashAttribute("errorMessage", "対象データがありません");
 			//一覧画面へリダイレクト
-			return "redirect/:bookrecordtable";
+			return "redirect:/bookrecordtable";
 		}
 	}
 	
@@ -101,13 +101,27 @@ public class BookRecordController {
 	@PostMapping("/update")
 	public String update(BookRecordForm form, RedirectAttributes attributes) {
 		//エンティティへの変換
-		BookRecord book = BookRecordHelper.convertoBookRecord(form);
+		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//更新処理
 		bookRecordService.updateBookRecord(book);
 		//フラッシュメッセージ
 		attributes.addFlashAttribute("message", "本の情報が更新されました");
 		//PRGパターン
-		return "redirect:/todos";
+		return "redirect:/bookrecordtable";
 	}
+	
+	
+//	//書影を表示する
+//	@GetMapping("/image")
+//	public String getImagePage(@PathVariable Integer id,Model model) {
+//	    // データベースから画像URLを取得する
+//	    BookRecord imgurl = bookRecordService.findByIdBookRecord(id);
+//	    if (imgurl != null && imgurl.getImage_url() != null) {
+//	        model.addAttribute("imagePath", imgurl.getImage_url());
+//	    } else {
+//	        model.addAttribute("imagePath", "画像がありません"); // 画像がない場合のデフォルト画像
+//	    }
+//	    return "imagePage";
+//	}
 	
 } //class

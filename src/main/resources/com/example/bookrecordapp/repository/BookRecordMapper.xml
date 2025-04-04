@@ -4,14 +4,13 @@
 
 <!--全件検索-->
 	<select id="selectAll" resultType="com.example.bookrecordapp.entity.BookRecord">
-<!--		SELECT id, book_status, title, author, date_start, date_finished -->
-<!--		FROM bookrecordtable-->
 	SELECT * FROM bookrecordtable
+	ORDER BY id	
 	</select>
 	
 <!--ID検索-->
 	<select id="selectById" resultType="com.example.bookrecordapp.entity.BookRecord">
-<!--		SELECT id, book_status, title, author, date_start, date_finished FROM bookrecordtable -->
+
 	SELECT * FROM bookrecordtable
 	WHERE id = #{id}
 	</select>
@@ -23,9 +22,9 @@
 
 <!--登録-->
 	<insert id="insert">
-	INSERT INTO bookrecordtable(book_status,book_type,title,author,publisher,date_start,date_finished,date_purchase, price,impression)
+	INSERT INTO bookrecordtable(book_status,book_type,title,author,publisher,date_start,date_finished,date_purchase, price,impression, image_url)
 		VALUES
-		(#{book_status}, #{book_type}, #{title}, #{author}, #{publisher}, #{date_start}, #{date_finished}, #{date_purchase}, #{price}, #{impression})
+		(#{book_status}, #{book_type}, #{title}, #{author}, #{publisher}, #{date_start}, #{date_finished}, #{date_purchase}, #{price}, #{impression}, #{image_url})
 	</insert>
 
 <!--更新-->
@@ -40,7 +39,8 @@
 		date_finished = #{date_finished}, 
 		date_purchase = #{date_purchase}, 
 		price = #{price}, 
-		impression = #{impression} 
+		impression = #{impression}, 
+		image_url = #{image_url}
 	WHERE id = #{id}
 	</update>
 

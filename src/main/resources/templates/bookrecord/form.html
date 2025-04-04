@@ -32,7 +32,7 @@
 
     /* テーブルのスタイル */
     table {
-        width: 80%;
+        width: 90%;
         margin: 20px auto;
         border-collapse: collapse;
         background-color: #ffffff; /* 白い背景 */
@@ -67,6 +67,22 @@
     button:hover {
         background-color: #a98e6a; /* ボタンホバー時の色 */
     }
+	
+	/* 新規や更新用ボタン：淡いピンク系 */
+	button.btn-edit {
+	    background-color: #f8d7da;  /* 淡いピンク */
+	    color: #721c24;  /* ピンクに合うダークな文字色 */
+	    border: 1px solid #f5c6cb;  /* 薄いピンクの枠線 */
+	}
+
+	button.btn-edit:hover {
+	    background-color: #f5c6cb;  /* ホバー時に少し濃いピンク */
+	    color: #721c24;
+	}
+
+	button.btn-edit:active {
+	    background-color: #f1a7b5;  /* アクティブ時 */
+	}
 
     /* リンクのスタイル */
     a {
@@ -86,19 +102,19 @@
 	<h2 th:unless="${bookRecordForm.isNew}">本の編集</h2>
 	
 	<!--アクションの分岐：登録or編集-->
-	<form th:action="${bookRecordForm.isNew} ? @{bookrecordtable/save} : @{/bookrecordtable/update}"
+	<form th:action="${bookRecordForm.isNew} ? @{/bookrecordtable/save} : @{/bookrecordtable/update}"
 		th:object="${bookRecordForm}" method="post">
 		<!--更新時に備えてidをhiddenで持つ-->
-		<input type="hiden" th:fiel="*{id}">
+		<input type="hidden" th:field="*{id}">
 		
 		<table border="1">
 			<tr>
 				<th>状態</th>
 					<td>
 						<select name="status" th:field="*{book_status}">
-						<option>積読</option>
-						<option>読書中</option>
-						<option>読了</option>
+						<option value="積読">積読</option>
+						<option value="読書中">読書中</option>
+						<option value="読了">読了</option>
 						</select>
 					</td>
 			</tr>
@@ -107,8 +123,8 @@
 				<th>本の種類</th>
 					<td>
 						<select name="type" th:field="*{book_type}">
-						<option>紙書籍</option>
-						<option>電子書籍</option>
+						<option value="紙書籍">紙書籍</option>
+						<option value="電子書籍">電子書籍</option>
 						</select>
 					</td>
 			</tr>
@@ -157,7 +173,7 @@
 			</tr>
 			
 			<tr>
-				<th>価格</th>
+				<th>価格(ハイフン抜き)</th>
 					<td>
 						<input type="text" th:field="*{price}">
 					</td>
@@ -173,10 +189,18 @@
 		</table>
 	
 		<!--ボタンの分岐：登録or編集-->
-		<input th:if="${bookRecordForm.isNew}" type="submit" value="登録">
-		<input th:unless="${bookRecordForm.isNew}" type="submit" value="更新">
+		<center>
+<!--		<input th:if="${bookRecordForm.isNew}" type="submit" value="登録">-->
+<!--		<input th:unless="${bookRecordForm.isNew}" type="submit" value="更新">-->
+			<button class="btn-edit" th:if="${bookRecordForm.isNew}" type="submit" value="登録">登録</button>
+			<button class="btn-edit" th:unless="${bookRecordForm.isNew}" type="submit" value="更新">更新</button>
+		</center>
 	</form>
-	<a th:href="@{/bookrecordtable}">戻る</a>
-
+	<br>
+<!--	<a th:href="@{/bookrecordtable}">戻る</a>-->
+	<center>
+	<button th:onclick="|location.href='@{/bookrecordtable}'|">戻る</button>
+	</center>
+	
 </body>
 </html>

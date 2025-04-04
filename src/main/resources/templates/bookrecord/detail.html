@@ -32,7 +32,7 @@
 
     /* テーブルのスタイル */
     table {
-        width: 80%;
+        width: 70%;
         margin: 20px auto;
         border-collapse: collapse;
         background-color: #ffffff; /* 白い背景 */
@@ -67,6 +67,22 @@
     button:hover {
         background-color: #a98e6a; /* ボタンホバー時の色 */
     }
+	
+	/* 新規や更新用ボタン：淡いピンク系 */
+	button.btn-edit {
+	    background-color: #f8d7da;  /* 淡いピンク */
+	    color: #721c24;  /* ピンクに合うダークな文字色 */
+	    border: 1px solid #f5c6cb;  /* 薄いピンクの枠線 */
+	}
+
+	button.btn-edit:hover {
+	    background-color: #f5c6cb;  /* ホバー時に少し濃いピンク */
+	    color: #721c24;
+	}
+
+	button.btn-edit:active {
+	    background-color: #f1a7b5;  /* アクティブ時 */
+	}
 
     /* リンクのスタイル */
     a {
@@ -88,7 +104,7 @@
 		エラーメッセージ
 	</p>
 	
-	<table border="1" width="500" th:each="bookrecord: ${bookrecordtable}">
+	<table border="1" width="500">
 		<tr>
 			<th>ID</th>
 			<td th:text="${bookrecord.id}"></td>
@@ -133,10 +149,16 @@
 			<th>読書感想文</th>
 			<td th:text="${bookrecord.impression}"></td>
 		</tr>
+<!--		<tr>-->
+<!--			<th>書影</th>-->
+<!--			<td>-->
+<!--				<img th:src="${imagePath}" alt="書影" />-->
+<!--			</td>-->
+<!--		</tr>-->
 		<tr>
 			<th>本を探す
 				<td>
-					<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title}" target="_blank">
+					<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title} + '+' + ${bookrecord.author}" target="_blank">
 			       <button>Googleで検索</button>
 					</a>
 				</td>
@@ -144,7 +166,13 @@
 		</tr>
 	</table>
 	
-	<a th:href="@{/bookrecordtable}">読書リスト　一覧</a>
+<!--	<a th:href="@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}">編集する</a>-->
+<!--	<br>-->
+<!--	<a th:href="@{/bookrecordtable}">読書リスト　一覧</a>-->
+	<center>
+	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}'|">編集する</button>
+	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
+	</center>
 
 </body>
 </html>

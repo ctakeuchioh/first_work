@@ -44,6 +44,9 @@ public class BookRecord {
 //	--読書感想文(任意)
 	private String impression;
 	
+//	--書影(任意)
+	private String image_url;
+	
 
 
 }
