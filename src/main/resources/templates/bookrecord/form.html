@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>読書記録　入力フォーム</title>
+</head>
+<style>
+    /* ページ全体の背景色 */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f9f0; /* 淡い緑色 */
+        color: #5e5a52; /* 淡い茶色 */
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 見出しのスタイル */
+    h2 {
+        text-align: center;
+        color: #4c7c4c; /* 少し濃い緑色 */
+        padding-top: 20px;
+    }
+
+    /* エラーメッセージのスタイル */
+    p[th\\:if] {
+        color: deeppink;
+        text-align: center;
+        font-size: 18px;
+        padding: 10px;
+        background-color: #f9e6e6; /* 淡いピンク色 */
+    }
+
+    /* テーブルのスタイル */
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #ffffff; /* 白い背景 */
+        border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #d9e8d0; /* 淡い緑色 */
+        color: #4c7c4c; /* 少し濃い緑色 */
+    }
+
+    td {
+        background-color: #f4f4f4; /* 淡いグレー */
+    }
+
+    /* ボタンのスタイル */
+    button {
+        background-color: #c8b29a; /* 淡い茶色 */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #a98e6a; /* ボタンホバー時の色 */
+    }
+
+    /* リンクのスタイル */
+    a {
+        text-decoration: none;
+        color: #4c7c4c;
+        font-weight: bold; /* 太字 */
+        text-decoration: underline; /* 下線 */
+    }
+
+    a:hover {
+        color: #9a7f51; /* 少し濃い茶色 */
+    }
+</style>
+<body>
+	<!--タイトルの分岐：登録or編集-->
+	<h2 th:if="${bookRecordForm.isNew}">新しい本の登録</h2>
+	<h2 th:unless="${bookRecordForm.isNew}">本の編集</h2>
+	
+	<!--アクションの分岐：登録or編集-->
+	<form th:action="${bookRecordForm.isNew} ? @{bookrecordtable/save} : @{/bookrecordtable/update}"
+		th:object="${bookRecordForm}" method="post">
+		<!--更新時に備えてidをhiddenで持つ-->
+		<input type="hiden" th:fiel="*{id}">
+		
+		<table border="1">
+			<tr>
+				<th>状態</th>
+					<td>
+						<select name="status" th:field="*{book_status}">
+						<option>積読</option>
+						<option>読書中</option>
+						<option>読了</option>
+						</select>
+					</td>
+			</tr>
+			
+			<tr>
+				<th>本の種類</th>
+					<td>
+						<select name="type" th:field="*{book_type}">
+						<option>紙書籍</option>
+						<option>電子書籍</option>
+						</select>
+					</td>
+			</tr>
+			
+			<tr>
+				<th>タイトル</th>
+					<td>
+						<input type="text" th:field="*{title}">
+					</td>
+			</tr>
+			
+			<tr>
+				<th>著者</th>
+					<td>
+						<input type="text" th:field="*{author}">
+					</td>
+			</tr>
+			
+			<tr>
+				<th>出版社</th>
+					<td>
+						<input type="text" th:field="*{publisher}">
+					</td>
+			</tr>
+			
+			<tr>
+				<th>読書開始日</th>
+					<td>
+						<input type="date" th:field="*{date_start}">
+					</td>
+			</tr>
+
+			<tr>
+				<th>読書完了日</th>
+					<td>
+						<input type="date" th:field="*{date_finished}">
+					</td>
+			</tr>
+			
+
+			<tr>
+				<th>購入日</th>
+					<td>
+						<input type="date" th:field="*{date_purchase}">
+					</td>
+			</tr>
+			
+			<tr>
+				<th>価格</th>
+					<td>
+						<input type="text" th:field="*{price}">
+					</td>
+			</tr>
+			
+			<tr>
+				<th>感想</th>
+					<td>
+						<textarea ros="5" cols="50" th:field="*{impression}">
+						</textarea>
+					</td>
+			</tr>
+		</table>
+	
+		<!--ボタンの分岐：登録or編集-->
+		<input th:if="${bookRecordForm.isNew}" type="submit" value="登録">
+		<input th:unless="${bookRecordForm.isNew}" type="submit" value="更新">
+	</form>
+	<a th:href="@{/bookrecordtable}">戻る</a>
+
+</body>
+</html>

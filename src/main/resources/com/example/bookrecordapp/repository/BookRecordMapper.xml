@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.bookrecordapp.repository.BookRecordMapper">
+
+<!--全件検索-->
+	<select id="selectAll" resultType="com.example.bookrecordapp.entity.BookRecord">
+<!--		SELECT id, book_status, title, author, date_start, date_finished -->
+<!--		FROM bookrecordtable-->
+	SELECT * FROM bookrecordtable
+	</select>
+	
+<!--ID検索-->
+	<select id="selectById" resultType="com.example.bookrecordapp.entity.BookRecord">
+<!--		SELECT id, book_status, title, author, date_start, date_finished FROM bookrecordtable -->
+	SELECT * FROM bookrecordtable
+	WHERE id = #{id}
+	</select>
+
+<!--タイトル検索-->
+	<select id="selectByTitle" resultType="com.example.bookrecordapp.entity.BookRecord">
+	SELECT * FROM bookrecordtable WHERE title = #{title}
+	</select>
+
+<!--登録-->
+	<insert id="insert">
+	INSERT INTO bookrecordtable(book_status,book_type,title,author,publisher,date_start,date_finished,date_purchase, price,impression)
+		VALUES
+		(#{book_status}, #{book_type}, #{title}, #{author}, #{publisher}, #{date_start}, #{date_finished}, #{date_purchase}, #{price}, #{impression})
+	</insert>
+
+<!--更新-->
+	<update id="update">
+	UPDATE bookrecordtable SET 
+		book_status = #{book_status}, 
+		book_type = #{book_type}, 
+		title = #{title}, 
+		author = #{author}, 
+		publisher = #{publisher}, 
+		date_start = #{date_start}, 
+		date_finished = #{date_finished}, 
+		date_purchase = #{date_purchase}, 
+		price = #{price}, 
+		impression = #{impression} 
+	WHERE id = #{id}
+	</update>
+
+<!--削除-->
+	<delete id="delete">
+		DELETE FROM bookrecordtable WHERE id = #{id}
+	</delete>
+
+</mapper>

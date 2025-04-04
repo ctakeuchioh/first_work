@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>読書記録　一覧</title>
+</head>
+<style>
+    /* ページ全体の背景色 */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f9f0; /* 淡い緑色 */
+        color: #5e5a52; /* 淡い茶色 */
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 見出しのスタイル */
+    h2 {
+        text-align: center;
+        color: #4c7c4c; /* 少し濃い緑色 */
+        padding-top: 20px;
+    }
+
+    /* エラーメッセージのスタイル */
+    p[th\\:if] {
+        color: deeppink;
+        text-align: center;
+        font-size: 18px;
+        padding: 10px;
+        background-color: #f9e6e6; /* 淡いピンク色 */
+    }
+
+    /* テーブルのスタイル */
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #ffffff; /* 白い背景 */
+        border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #d9e8d0; /* 淡い緑色 */
+        color: #4c7c4c; /* 少し濃い緑色 */
+    }
+
+    td {
+        background-color: #f4f4f4; /* 淡いグレー */
+    }
+
+    /* ボタンのスタイル */
+    button {
+        background-color: #c8b29a; /* 淡い茶色 */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #a98e6a; /* ボタンホバー時の色 */
+    }
+
+    /* リンクのスタイル */
+    a {
+        text-decoration: none;
+        color: #4c7c4c;
+        font-weight: bold; /* 太字 */
+        text-decoration: underline; /* 下線 */
+    }
+
+    a:hover {
+        color: #9a7f51; /* 少し濃い茶色 */
+    }
+</style>
+<body>
+	<h2>読書リスト　一覧</h2>
+	<!--Flashメッセージの表示-->
+	<p th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
+	</p>
+	<p th:if="${errorMessage}"
+		th:text="${errorMessage}" style="color: deeppink;">
+		エラーメッセージ
+	</p>
+	
+	<table border="1">
+		<thread>
+			<tr>
+				<th>ID</th>
+				<th>状態</th>
+<!--				<th>本の種類</th>-->
+				<th>タイトル</th>
+				<th>著者</th>
+<!--				<th>出版社</th>-->
+				<th>読書開始日</th>
+				<th>読了日</th>
+<!--				<th>購入日</th>-->
+<!--				<th>価格</th>-->
+<!--				<th>読書感想文</th>-->
+				<th>詳細</th>
+				<th>検索</th>
+			</tr>
+		</thread>
+		<tbody>
+			<tr th:each="bookrecord: ${bookrecordtable}">
+				<td th:text="${bookrecord.id}"></td>
+				<td th:text="${bookrecord.book_status}"></td>
+				<td th:text="${bookrecord.title}"></td>
+				<td th:text="${bookrecord.author}"></td>
+				<td th:text="${bookrecord.date_start}"></td>
+				<td th:text="${bookrecord.date_finished}"></td>
+				<td>
+					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
+						詳細/編集
+					</a>
+				</td>
+				<td>
+				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title}" target="_blank">
+				       <button>Googleで検索</button>
+				   </a>
+				   </td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<a th:href="@{/bookrecordtable/form}">新規登録</a>
+	
+	
+</body>
+</html>
