@@ -21,14 +21,7 @@
         padding-top: 20px;
     }
 
-    /* エラーメッセージのスタイル */
-    p[th\\:if] {
-        color: deeppink;
-        text-align: center;
-        font-size: 18px;
-        padding: 10px;
-        background-color: #f9e6e6; /* 淡いピンク色 */
-    }
+
 
     /* テーブルのスタイル */
     table {
@@ -82,6 +75,22 @@
 
 	button.btn-edit:active {
 	    background-color: #f1a7b5;  /* アクティブ時 */
+	}
+	
+	/* 削除用ボタン：グレー系 */
+	button.btn-delete {
+	    background-color: #d3d3d3;  /* 淡いグレーの背景色 */
+	    color: #333333;  /* ダークグレーの文字色 */
+	    border: 1px solid #b0b0b0;  /* 薄いグレーの枠線 */
+	}
+
+	button.btn-delete:hover {
+	    background-color: #c0c0c0;  /* ホバー時に少し濃いグレー */
+	    color: #333333;
+	}
+
+	button.btn-delete:active {
+	    background-color: #a9a9a9;  /* アクティブ時 */
 	}
 
     /* リンクのスタイル */
@@ -164,13 +173,20 @@
 				</td>
 			</th>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<center>
+				<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}'|">編集する</button>
+				<form th:action="@{/bookrecordtable/delete/{id}(id=${bookrecord.id})}" method="post">
+					<button class="btn-delete" type="submit">この本を削除する</button>
+				</form>
+				
+				</center>
+			</td>
+		</tr>
 	</table>
 	
-<!--	<a th:href="@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}">編集する</a>-->
-<!--	<br>-->
-<!--	<a th:href="@{/bookrecordtable}">読書リスト　一覧</a>-->
 	<center>
-	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}'|">編集する</button>
 	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
 	</center>
 

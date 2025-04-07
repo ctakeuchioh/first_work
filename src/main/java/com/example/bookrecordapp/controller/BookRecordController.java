@@ -2,6 +2,8 @@ package com.example.bookrecordapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +67,13 @@ public class BookRecordController {
 	
 	//新規登録の実行
 	@PostMapping("/save")
-	public String create(BookRecordForm form, RedirectAttributes attributes) {
+	public String create(@Validated BookRecordForm form, BindingResult bindingResult, RedirectAttributes attributes) {
+		//バリデーションチェック(入力チェック)
+		if(bindingResult.hasErrors()) {
+			//新規登録画面の設定
+			form.setIsNew(true);
+			return "bookrecord/form";
+		}
 		//エンティティへの変換
 		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//登録実行
@@ -99,7 +107,13 @@ public class BookRecordController {
 	
 	//本の情報を更新
 	@PostMapping("/update")
-	public String update(BookRecordForm form, RedirectAttributes attributes) {
+	public String update(@Validated BookRecordForm form, BindingResult bindingResult, RedirectAttributes attributes) {
+		//バリデーションチェック(入力チェック)
+		if(bindingResult.hasErrors()) {
+			//更新画面の設定
+			form.setIsNew(false);
+			return "bookrecord/form";
+		}
 		//エンティティへの変換
 		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//更新処理
@@ -123,5 +137,17 @@ public class BookRecordController {
 //	    }
 //	    return "imagePage";
 //	}
+	
+	/* === 指定されたIDの記録を削除 === */
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable Integer id, RedirectAttributes attributes) {
+		//削除処理
+		bookRecordService.deleteBookRecord(id);
+		//フラッシュメッセージ
+		attributes.addFlashAttribute("message", "読書記録が削除されました");
+		//PRGパターン
+		return "redirect:/bookrecordtable";
+	}
+	
 	
 } //class

@@ -1,5 +1,8 @@
 package com.example.bookrecordapp.form;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +23,11 @@ public class BookRecordForm {
 	private String book_type; 
 	
 //	--タイトル //必須
+	@NotBlank(message = "タイトルは必須項目です。")
 	private String title;
 	
 //	--著者名 //必須
+	@NotBlank(message = "著者名は必須項目です。")
 	private String author;
 	
 //	--出版社（任意)
@@ -41,6 +46,7 @@ public class BookRecordForm {
 	private Integer price;
 	
 //	--読書感想文(任意)
+	@Size(min = 0, max = 1000, message="感想は1000文字以内で入力してください。")
 	private String impression;
 	
 //	--書影(任意)

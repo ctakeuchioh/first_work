@@ -21,15 +21,6 @@
         padding-top: 20px;
     }
 
-    /* エラーメッセージのスタイル */
-    p[th\\:if] {
-        color: deeppink;
-        text-align: center;
-        font-size: 18px;
-        padding: 10px;
-        background-color: #f9e6e6; /* 淡いピンク色 */
-    }
-
     /* テーブルのスタイル */
     table {
         width: 90%;
@@ -146,7 +137,6 @@
 		</tbody>
 	</table>
 	
-<!--	<a th:href="@{/bookrecordtable/form}">新規登録</a>-->
 	<center>
 	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新規登録</button>
 	</center>
