@@ -3,91 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>読書記録　入力フォーム</title>
+<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+	<script>
+	    function searchBookCover() {
+	        var title = document.getElementById('bookTitle').value; // 入力された書籍名を取得
+	        if (title) {
+	            // Google Books APIを利用して書籍情報を検索
+	            var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(title);
+	            fetch(url)
+	                .then(response => response.json())
+	                .then(data => {
+	                    if (data.items && data.items.length > 0) {
+	                        // 最初の書籍情報を取得
+	                        var book = data.items[0].volumeInfo;
+	                        if (book.imageLinks && book.imageLinks.thumbnail) {
+	                            // 表紙画像のURLを取得して表示
+	                            var imageUrl = book.imageLinks.thumbnail;
+	                            document.getElementById('bookCover').src = imageUrl; // 画像の表示
+	                            document.getElementById('bookCover').style.display = 'block'; // 画像を表示
+	                        } else {
+	                            alert('書籍の表紙画像が見つかりませんでした');
+	                        }
+	                    } else {
+	                        alert('書籍が見つかりませんでした');
+	                    }
+	                })
+	                .catch(error => {
+	                    console.error('エラー:', error);
+	                    alert('書籍の検索に失敗しました');
+	                });
+	        } else {
+	            alert('書籍名を入力してください');
+	        }
+	    }
+	</script>
+
 </head>
-<style>
-    /* ページ全体の背景色 */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f9f0; /* 淡い緑色 */
-        color: #5e5a52; /* 淡い茶色 */
-        margin: 0;
-        padding: 0;
-    }
 
-    /* 見出しのスタイル */
-    h2 {
-        text-align: center;
-        color: #4c7c4c; /* 少し濃い緑色 */
-        padding-top: 20px;
-    }
-
-
-    /* テーブルのスタイル */
-    table {
-        width: 70%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        background-color: #ffffff; /* 白い背景 */
-        border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #d9e8d0; /* 淡い緑色 */
-        color: #4c7c4c; /* 少し濃い緑色 */
-    }
-
-    td {
-        background-color: #f4f4f4; /* 淡いグレー */
-    }
-
-    /* ボタンのスタイル */
-    button {
-        background-color: #c8b29a; /* 淡い茶色 */
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 14px;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background-color: #a98e6a; /* ボタンホバー時の色 */
-    }
-	
-	/* 新規や更新用ボタン：淡いピンク系 */
-	button.btn-edit {
-	    background-color: #f8d7da;  /* 淡いピンク */
-	    color: #721c24;  /* ピンクに合うダークな文字色 */
-	    border: 1px solid #f5c6cb;  /* 薄いピンクの枠線 */
-	}
-
-	button.btn-edit:hover {
-	    background-color: #f5c6cb;  /* ホバー時に少し濃いピンク */
-	    color: #721c24;
-	}
-
-	button.btn-edit:active {
-	    background-color: #f1a7b5;  /* アクティブ時 */
-	}
-
-    /* リンクのスタイル */
-    a {
-        text-decoration: none;
-        color: #4c7c4c;
-        font-weight: bold; /* 太字 */
-        text-decoration: underline; /* 下線 */
-    }
-
-    a:hover {
-        color: #9a7f51; /* 少し濃い茶色 */
-    }
-</style>
 <body>
 	<!--タイトルの分岐：登録or編集-->
 	<h2 th:if="${bookRecordForm.isNew}">新しい本の登録</h2>
@@ -97,7 +49,8 @@
 	<form th:action="${bookRecordForm.isNew} ? @{/bookrecordtable/save} : @{/bookrecordtable/update}"
 		th:object="${bookRecordForm}" method="post">
 		<!--更新時に備えてidをhiddenで持つ-->
-		<input type="hidden" th:field="*{id}">
+<!--		<input type="hidden" th:field="*{id}">-->
+		<input th:field="*{id}">
 		
 		<table border="1">
 			<tr>
@@ -124,7 +77,7 @@
 			<tr>
 				<th>タイトル<span style="color:red;">※</span></th>
 					<td>
-						<input type="text" th:field="*{title}">
+						<input id="bookTitle" type="text" th:field="*{title}">
 						<!--バリデーションエラー用表示-->
 						<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;">
 							
@@ -186,23 +139,35 @@
 						<span th:if="${#fields.hasErrors('impression')}" th:errors="*{impression}" style="color: red;">
 					</td>
 			</tr>
+			
+<!--書影まわり-->
+			<tr>
+				<th>
+					<center>
+					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
+					</center>
+				</th>
+					<td>
+						<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
+											</td>
+				</tr>
+<!--書影まわり-->
 			<tr>
 				<td colspan="2">
 		<center>
-<!--		<input th:if="${bookRecordForm.isNew}" type="submit" value="登録">-->
-<!--		<input th:unless="${bookRecordForm.isNew}" type="submit" value="更新">-->
+		<!--ボタンの分岐：登録or編集-->
 			<button class="btn-edit" th:if="${bookRecordForm.isNew}" type="submit" value="登録">登録</button>
 			<button class="btn-edit" th:unless="${bookRecordForm.isNew}" type="submit" value="更新">更新</button>
+			
 		</center>
 				</td>
 			</tr>
 		</table>
 	
-		<!--ボタンの分岐：登録or編集-->
 	</form>
-	<br>
-<!--	<a th:href="@{/bookrecordtable}">戻る</a>-->
 	<center>
+			<button th:unless="${bookRecordForm.isNew}" th:onclick="|location.href='@{/bookrecordtable/{id}(id=${bookRecordForm.id})}'|">読書記録　詳細へ戻る</button>
+	<hr>
 	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
 	</center>
 	
