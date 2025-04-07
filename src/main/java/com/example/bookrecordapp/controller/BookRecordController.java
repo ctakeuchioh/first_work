@@ -53,6 +53,18 @@ public class BookRecordController {
 		}
 	} //detailメソッド
 	
+	//表紙画像の処理
+//    @GetMapping("/book/{id}")
+//    public String getBookRecord(@PathVariable Integer id, Model model) {
+//        // データベースから書籍情報を取得
+//        BookRecord bookRecord = bookRecordService.findByIdBookRecord(id);
+//
+//        // Thymeleafのテンプレートにデータを渡す
+//        model.addAttribute("bookRecord", bookRecord);
+//
+//        return "bookRecordDetail"; // 画像URLを表示するためのテンプレート
+//    }	
+	
 	
 /* === 登録・更新処理 === */
 	

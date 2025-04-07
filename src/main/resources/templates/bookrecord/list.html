@@ -9,14 +9,16 @@
 <body>
 	<h2>読書リスト　一覧</h2>
 	<!--Flashメッセージの表示-->
-	<p th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
+	<center>
+	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
 	</p>
-	<p th:if="${errorMessage}"
+	<p class="p-flash" th:if="${errorMessage}"
 		th:text="${errorMessage}" style="color: deeppink;">
 		エラーメッセージ
 	</p>
+	</center>
 	
-	<table border="1">
+	<table class="table-list" border="1" >
 		<thread>
 			<tr>
 				<th>ID</th>
@@ -30,6 +32,7 @@
 <!--				<th>購入日</th>-->
 <!--				<th>価格</th>-->
 <!--				<th>読書感想文</th>-->
+				<th>書影</th>
 				<th>詳細</th>
 				<th>検索</th>
 			</tr>
@@ -43,6 +46,9 @@
 				<td th:text="${bookrecord.date_start}"></td>
 				<td th:text="${bookrecord.date_finished}"></td>
 				<td>
+					<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 50px; height: auto;" />	
+				</td>
+				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
 						詳細/編集
 					</a>
@@ -54,7 +60,7 @@
 				   </td>
 			</tr>
 		</tbody>
-	</table>
+	</tableclass="table-list">
 	
 	<center>
 	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新規登録</button>

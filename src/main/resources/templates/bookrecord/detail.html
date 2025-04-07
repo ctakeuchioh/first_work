@@ -59,12 +59,12 @@
 			<th>読書感想文</th>
 			<td th:text="${bookrecord.impression}"></td>
 		</tr>
-<!--		<tr>-->
-<!--			<th>書影</th>-->
-<!--			<td>-->
-<!--				<img th:src="${imagePath}" alt="書影" />-->
-<!--			</td>-->
-<!--		</tr>-->
+		<tr>
+			<th>書影</th>
+			<td>
+				<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 200px; height: auto;" />	
+			</td>
+		</tr>
 		<tr>
 			<th>本を探す
 				<td>

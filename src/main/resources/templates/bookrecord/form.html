@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>読書記録　入力フォーム</title>
 <link th:href="@{/stylesheet.css}" rel="stylesheet" />
-	<script>
+<script>
 	    function searchBookCover() {
 	        var title = document.getElementById('bookTitle').value; // 入力された書籍名を取得
 	        if (title) {
@@ -19,8 +19,9 @@
 	                        if (book.imageLinks && book.imageLinks.thumbnail) {
 	                            // 表紙画像のURLを取得して表示
 	                            var imageUrl = book.imageLinks.thumbnail;
-	                            document.getElementById('bookCover').src = imageUrl; // 画像の表示
+	                            document.getElementById('bookCover').src = imageUrl; // 画像を表示
 	                            document.getElementById('bookCover').style.display = 'block'; // 画像を表示
+	                            document.getElementById('image_url').value = imageUrl;  // 入力フィールドに画像URLをセット
 	                        } else {
 	                            alert('書籍の表紙画像が見つかりませんでした');
 	                        }
@@ -141,16 +142,36 @@
 			</tr>
 			
 <!--書影まわり-->
-			<tr>
-				<th>
-					<center>
-					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
-					</center>
-				</th>
-					<td>
-						<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
-											</td>
-				</tr>
+<!--			<tr>-->
+<!--				<th>-->
+<!--					<center>-->
+<!--					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>-->
+<!--					</center>-->
+<!--				</th>-->
+<!--					<td>-->
+<!--						<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">-->
+<!--											</td>-->
+<!--				</tr>-->
+				
+				<!-- 表紙画像を検索するボタン -->
+							<tr>
+								<th>
+									<center>
+									    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
+									</center>
+								</th>
+								<td>
+									<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
+								</td>
+							</tr>
+
+							<!-- 表紙画像のURLを格納する非表示の入力フィールド -->
+							<tr style="display:none;">
+								<th>表紙画像URL</th>
+								<td>
+									<input type="text" id="image_url" th:field="*{image_url}" />
+								</td>
+							</tr>
 <!--書影まわり-->
 			<tr>
 				<td colspan="2">

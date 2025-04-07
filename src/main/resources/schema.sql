@@ -36,7 +36,7 @@ CREATE TABLE bookrecordtable (
 		impression varchar(1000),
 		
 		--書影(任意)
-		image_url varchar(100)
+		image_url VARCHAR(1000)
 
 	
 )
