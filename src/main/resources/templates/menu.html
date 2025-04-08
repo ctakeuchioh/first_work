@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>メニュー</title>
+<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+<meta http-equiv="refresh" content="3; url=/bookrecordtable">
+</head>
+
+<body>
+	<h2>いい本と出会った？</h2>
+	<hr width="80%">
+	<center>
+		3秒後に書庫へ遷移します。<br>
+		自動で遷移しない場合はリンクをクリック：
+	<a th:href="@{/bookrecordtable}">読書リスト 一覧へ</a>
+	</center>
+	
+</body>
+</html>
