@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <title>読書記録　詳細</title>
 <link th:href="@{/stylesheet.css}" rel="stylesheet" />
+<script>
+  fetch("/footer.html")
+    .then((response) => response.text())
+    .then((data) => document.querySelector("#footer").innerHTML = data);
+</script>
 </head>
 
 <body>
@@ -13,7 +18,7 @@
 		th:text="${errorMessage}" style="color: deeppink;">
 		エラーメッセージ
 	</p>
-	
+<main>
 	<table border="1" width="500">
 		<tr>
 			<th>ID</th>
@@ -21,7 +26,19 @@
 		</tr>
 		<tr>
 			<th>状態</th>
-			<td th:text="${bookrecord.book_status}"></td>
+				<!-- 状態に応じて画像を切り替え -->
+				<td><span th:switch="${bookrecord.book_status}">
+					<span th:case="'読了'">
+						<img th:src="@{/image/icon_done.png}" width="50" alt="読了">
+					</span>
+					<span th:case="'積読'">
+						<img th:src="@{/image/icon_tsundoku.png}" width="50" alt="積読">
+					</span>
+					<span th:case="'読書中'">
+						<img th:src="@{/image/icon_dokusyo.png}" width="50" alt="読書中">
+					</span>
+				</span>
+			</td>
 		</tr>
 		<tr>
 			<th>本の種類</th>
@@ -62,7 +79,7 @@
 		<tr>
 			<th>書影</th>
 			<td>
-				<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 200px; height: auto;" />	
+				<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 150px; height: auto;" />	
 			</td>
 		</tr>
 		<tr>
@@ -76,20 +93,22 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-				<center>
-				<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}'|">編集する</button>
-				<form th:action="@{/bookrecordtable/delete/{id}(id=${bookrecord.id})}" method="post">
-					<button class="btn-delete" type="submit">この本を削除する</button>
-				</form>
-				
-				</center>
+				<div style="display: flex; justify-content: center; gap: 10px;">
+					<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/edit/{id}(id=${bookrecord.id})}'|">編集する</button>
+					<for th:action="@{/bookrecordtable/delete/{id}(id=${bookrecord.id})}" method="post">
+						<button class="btn-delete" type="submit">この本を削除する</button>
+					</form>
+				</div>
 			</td>
 		</tr>
 	</table>
 	
+	<hr width="80%">
 	<center>
 	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
 	</center>
+</main>
 
+<!--	 <div id="footer"></div>-->
 </body>
 </html>

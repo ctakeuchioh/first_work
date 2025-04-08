@@ -187,8 +187,8 @@
 	
 	</form>
 	<center>
-			<button th:unless="${bookRecordForm.isNew}" th:onclick="|location.href='@{/bookrecordtable/{id}(id=${bookRecordForm.id})}'|">読書記録　詳細へ戻る</button>
-	<hr>
+			<button th:unless="${bookRecordForm.isNew}" th:onclick="|location.href='@{/bookrecordtable/{id}(id=${bookRecordForm.id})}'|">編集せず、読書記録詳細へ戻る</button>
+	<hr width="80%">
 	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
 	</center>
 	
