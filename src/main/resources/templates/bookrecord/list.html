@@ -3,98 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <title>読書記録　一覧</title>
+<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+<script>
+<!--footer導入-->
+  fetch("/footer.html")
+    .then((response) => response.text())
+    .then((data) => document.querySelector("#footer").innerHTML = data);
+</script>
 </head>
-<style>
-    /* ページ全体の背景色 */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f9f0; /* 淡い緑色 */
-        color: #5e5a52; /* 淡い茶色 */
-        margin: 0;
-        padding: 0;
-    }
 
-    /* 見出しのスタイル */
-    h2 {
-        text-align: center;
-        color: #4c7c4c; /* 少し濃い緑色 */
-        padding-top: 20px;
-    }
-
-    /* エラーメッセージのスタイル */
-    p[th\\:if] {
-        color: deeppink;
-        text-align: center;
-        font-size: 18px;
-        padding: 10px;
-        background-color: #f9e6e6; /* 淡いピンク色 */
-    }
-
-    /* テーブルのスタイル */
-    table {
-        width: 80%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        background-color: #ffffff; /* 白い背景 */
-        border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
-    }
-
-    th, td {
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #d9e8d0; /* 淡い緑色 */
-        color: #4c7c4c; /* 少し濃い緑色 */
-    }
-
-    td {
-        background-color: #f4f4f4; /* 淡いグレー */
-    }
-
-    /* ボタンのスタイル */
-    button {
-        background-color: #c8b29a; /* 淡い茶色 */
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 14px;
-        border-radius: 5px;
-    }
-
-    button:hover {
-        background-color: #a98e6a; /* ボタンホバー時の色 */
-    }
-
-    /* リンクのスタイル */
-    a {
-        text-decoration: none;
-        color: #4c7c4c;
-        font-weight: bold; /* 太字 */
-        text-decoration: underline; /* 下線 */
-    }
-
-    a:hover {
-        color: #9a7f51; /* 少し濃い茶色 */
-    }
-</style>
 <body>
 	<h2>読書リスト　一覧</h2>
 	<!--Flashメッセージの表示-->
-	<p th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
+	<center>
+	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
 	</p>
-	<p th:if="${errorMessage}"
+	<p class="p-flash" th:if="${errorMessage}"
 		th:text="${errorMessage}" style="color: deeppink;">
 		エラーメッセージ
 	</p>
+	</center>
 	
-	<table border="1">
+	<div align="right">
+	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
+	</div>
+	
+<main>
+	<table class="table-list" border="1" >
 		<thread>
 			<tr>
 				<th>ID</th>
-				<th>状態</th>
+				<th>状態
+				</th>
 <!--				<th>本の種類</th>-->
 				<th>タイトル</th>
 				<th>著者</th>
@@ -104,6 +44,7 @@
 <!--				<th>購入日</th>-->
 <!--				<th>価格</th>-->
 <!--				<th>読書感想文</th>-->
+				<th>書影</th>
 				<th>詳細</th>
 				<th>検索</th>
 			</tr>
@@ -111,27 +52,45 @@
 		<tbody>
 			<tr th:each="bookrecord: ${bookrecordtable}">
 				<td th:text="${bookrecord.id}"></td>
-				<td th:text="${bookrecord.book_status}"></td>
+			<!--アイコンの分岐-->
+				<td>
+					<!-- 状態に応じて画像を切り替え -->
+					<span th:switch="${bookrecord.book_status}">
+						<span th:case="'読了'">
+							<img th:src="@{/image/icon_done.png}" width="50" alt="読了">
+						</span>
+						<span th:case="'積読'">
+							<img th:src="@{/image/icon_tsundoku.png}" width="50" alt="積読">
+						</span>
+						<span th:case="'読書中'">
+							<img th:src="@{/image/icon_dokusyo.png}" width="50" alt="読書中">
+						</span>
+					</span>
+				</td>
+				
 				<td th:text="${bookrecord.title}"></td>
 				<td th:text="${bookrecord.author}"></td>
 				<td th:text="${bookrecord.date_start}"></td>
 				<td th:text="${bookrecord.date_finished}"></td>
+				<td>
+					<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 50px; height: auto;" />	
+				</td>
 				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
 						詳細/編集
 					</a>
 				</td>
 				<td>
-				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title}" target="_blank">
+				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title} + '+' + ${bookrecord.author}" target="_blank">
 				       <button>Googleで検索</button>
 				   </a>
 				   </td>
 			</tr>
 		</tbody>
 	</table>
-	
-	<a th:href="@{/bookrecordtable/form}">新規登録</a>
-	
-<!--	プッシュ確認-->
+</main>
+
+ <div id="footer"></div>
+
 </body>
 </html>

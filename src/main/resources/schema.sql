@@ -33,7 +33,10 @@ CREATE TABLE bookrecordtable (
 		price integer,
 		
 		--読書感想文(任意)
-		impression varchar(1000)
+		impression varchar(1000),
+		
+		--書影(任意)
+		image_url VARCHAR(1000)
 
 	
 )

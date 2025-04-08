@@ -2,6 +2,8 @@ package com.example.bookrecordapp.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +43,7 @@ public class BookRecordController {
 		BookRecord bookRecord = bookRecordService.findByIdBookRecord(id);
 		if (bookRecord != null) {
 			//対象データがある場合はモデルに格納
-			model.addAttribute("bookrecordtable", bookRecordService.findByIdBookRecord(id));
+			model.addAttribute("bookrecord", bookRecordService.findByIdBookRecord(id));
 			return "bookrecord/detail";
 		} else {
 			//対象データがない場合はフラッシュメッセージを設定
@@ -50,6 +52,18 @@ public class BookRecordController {
 			return "redirect:/bookrecordtable";
 		}
 	} //detailメソッド
+	
+	//表紙画像の処理
+//    @GetMapping("/book/{id}")
+//    public String getBookRecord(@PathVariable Integer id, Model model) {
+//        // データベースから書籍情報を取得
+//        BookRecord bookRecord = bookRecordService.findByIdBookRecord(id);
+//
+//        // Thymeleafのテンプレートにデータを渡す
+//        model.addAttribute("bookRecord", bookRecord);
+//
+//        return "bookRecordDetail"; // 画像URLを表示するためのテンプレート
+//    }	
 	
 	
 /* === 登録・更新処理 === */
@@ -65,9 +79,15 @@ public class BookRecordController {
 	
 	//新規登録の実行
 	@PostMapping("/save")
-	public String create(BookRecordForm form, RedirectAttributes attributes) {
+	public String create(@Validated BookRecordForm form, BindingResult bindingResult, RedirectAttributes attributes) {
+		//バリデーションチェック(入力チェック)
+		if(bindingResult.hasErrors()) {
+			//新規登録画面の設定
+			form.setIsNew(true);
+			return "bookrecord/form";
+		}
 		//エンティティへの変換
-		BookRecord book = BookRecordHelper.convertoBookRecord(form);
+		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//登録実行
 		bookRecordService.insertBookRecord(book);
 		//フラッシュメッセージ
@@ -92,22 +112,54 @@ public class BookRecordController {
 			//対象データがない場合はフラッシュメッセージを設定
 			attributes.addFlashAttribute("errorMessage", "対象データがありません");
 			//一覧画面へリダイレクト
-			return "redirect/:bookrecordtable";
+			return "redirect:/bookrecordtable";
 		}
 	}
 	
 	
 	//本の情報を更新
 	@PostMapping("/update")
-	public String update(BookRecordForm form, RedirectAttributes attributes) {
+	public String update(@Validated BookRecordForm form, BindingResult bindingResult, RedirectAttributes attributes) {
+		//バリデーションチェック(入力チェック)
+		if(bindingResult.hasErrors()) {
+			//更新画面の設定
+			form.setIsNew(false);
+			return "bookrecord/form";
+		}
 		//エンティティへの変換
-		BookRecord book = BookRecordHelper.convertoBookRecord(form);
+		BookRecord book = BookRecordHelper.converBookRecord(form);
 		//更新処理
 		bookRecordService.updateBookRecord(book);
 		//フラッシュメッセージ
 		attributes.addFlashAttribute("message", "本の情報が更新されました");
 		//PRGパターン
-		return "redirect:/todos";
+		return "redirect:/bookrecordtable";
 	}
+	
+	
+//	//書影を表示する
+//	@GetMapping("/image")
+//	public String getImagePage(@PathVariable Integer id,Model model) {
+//	    // データベースから画像URLを取得する
+//	    BookRecord imgurl = bookRecordService.findByIdBookRecord(id);
+//	    if (imgurl != null && imgurl.getImage_url() != null) {
+//	        model.addAttribute("imagePath", imgurl.getImage_url());
+//	    } else {
+//	        model.addAttribute("imagePath", "画像がありません"); // 画像がない場合のデフォルト画像
+//	    }
+//	    return "imagePage";
+//	}
+	
+	/* === 指定されたIDの記録を削除 === */
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable Integer id, RedirectAttributes attributes) {
+		//削除処理
+		bookRecordService.deleteBookRecord(id);
+		//フラッシュメッセージ
+		attributes.addFlashAttribute("message", "読書記録が削除されました");
+		//PRGパターン
+		return "redirect:/bookrecordtable";
+	}
+	
 	
 } //class

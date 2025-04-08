@@ -8,7 +8,7 @@ public class BookRecordHelper {
 	
 	//BookRecordへの変換
 	
-	public static BookRecord convertoBookRecord(BookRecordForm form) {
+	public static BookRecord converBookRecord(BookRecordForm form) {
 		BookRecord book = new BookRecord();
 		book.setId(form.getId());
 		book.setBook_status(form.getBook_status());
@@ -21,6 +21,7 @@ public class BookRecordHelper {
 		book.setDate_purchase(form.getDate_purchase());
 		book.setPrice(form.getPrice());
 		book.setImpression(form.getImpression());
+		book.setImage_url(form.getImage_url());
 		return book;
 	}
 
@@ -38,6 +39,7 @@ public class BookRecordHelper {
 		form.setDate_purchase(book.getDate_purchase());
 		form.setPrice(book.getPrice());
 		form.setImpression(book.getImpression());
+		form.setImage_url(book.getImage_url());
 		//更新画面設定
 		form.setIsNew(false);
 		return form;

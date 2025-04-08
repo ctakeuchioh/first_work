@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Footer</title>
+<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+</head>
+<body>
+
+	<footer>
+		<table>
+			<div align="right">
+				<form th:action="@{/logout}" method="post">
+					<button>ログアウト</button>
+				</form>
+			</div>
+		</table>
+	</footer>
+	
+</body>
+</html>
