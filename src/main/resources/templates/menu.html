@@ -5,17 +5,24 @@
 <meta charset="UTF-8">
 <title>メニュー</title>
 <link th:href="@{/stylesheet.css}" rel="stylesheet" />
-<meta http-equiv="refresh" content="3; url=/bookrecordtable">
+<meta http-equiv="refresh" content="30; url=/bookrecordtable">
 </head>
 
 <body>
 	<h2>いい本と出会った？</h2>
-		<div sec:authentication="name">
-			ログイン情報のname値に書き変わる
-		</div>
-		<div sec:authorize="isAuthenticated()">
-			認証された場合のみ表示
-		</div>
+	<center>
+<!--		<div sec:authentication="name">-->
+<!--			ログイン情報のname値に書き変わる-->
+<!--		</div>-->
+<!--		<div sec:authorize="isAuthenticated()">-->
+<!--			認証された場合のみ表示-->
+<!--		</div>-->
+★なんかここをいい感じに表示できるようにしたい（4/8への宿題)
+		<div style="display: flex; justify-content: center; gap: 10px;" th:text="${#authentication.principal.displayname}">
+		新たに追加したdisplayname値に書き換わる
+		</div>さん
+	</center>
+	
 	<hr width="80%">
 	<center>
 		
