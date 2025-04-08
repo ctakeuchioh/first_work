@@ -6,17 +6,17 @@
 <link th:href="@{/stylesheet.css}" rel="stylesheet" />
 <script>
 <!--footer導入-->
-  fetch("/footer.html")
-    .then((response) => response.text())
-    .then((data) => document.querySelector("#footer").innerHTML = data);
+//  fetch("/footer.html")
+//    .then((response) => response.text())
+//    .then((data) => document.querySelector("#footer").innerHTML = data);
 </script>
 </head>
 
 <body>
-	<h2>読書リスト　一覧</h2>
+	<h1>読書リスト　一覧</h1>
 	<!--Flashメッセージの表示-->
 	<center>
-	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
+	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: rgb(0, 200, 150);">完了メッセージ
 	</p>
 	<p class="p-flash" th:if="${errorMessage}"
 		th:text="${errorMessage}" style="color: deeppink;">
@@ -57,13 +57,13 @@
 					<!-- 状態に応じて画像を切り替え -->
 					<span th:switch="${bookrecord.book_status}">
 						<span th:case="'読了'">
-							<img th:src="@{/image/icon_done.png}" width="50" alt="読了">
+							<img th:src="@{/image/icon_done.png}" width="60" alt="読了">
 						</span>
 						<span th:case="'積読'">
-							<img th:src="@{/image/icon_tsundoku.png}" width="50" alt="積読">
+							<img th:src="@{/image/icon_tsundoku.png}" width="60" alt="積読">
 						</span>
 						<span th:case="'読書中'">
-							<img th:src="@{/image/icon_dokusyo.png}" width="50" alt="読書中">
+							<img th:src="@{/image/icon_dokusyo.png}" width="60" alt="読書中">
 						</span>
 					</span>
 				</td>
@@ -90,7 +90,21 @@
 	</table>
 </main>
 
- <div id="footer"></div>
+<table>
+	<div align="right">
+<!--		<form th:action="@{/logout}" method="post">-->
+<!--			<button>ログアウト</button>-->
+<!--		</form>-->
+<button id="logoutButton" class="btn-delete" type="submit" onclick="return confirmLogout()">ログアウト</button>
+
+<script>
+    function confirmLogout() {
+        // 確認ダイアログを表示
+        return confirm("本当にログアウトしますか？");
+    }
+</script>
+	</div>
+</table>
 
 </body>
 </html>

@@ -43,17 +43,18 @@
 
 <body>
 	<!--タイトルの分岐：登録or編集-->
-	<h2 th:if="${bookRecordForm.isNew}">新しい本の登録</h2>
-	<h2 th:unless="${bookRecordForm.isNew}">本の編集</h2>
+	<h1 th:if="${bookRecordForm.isNew}">新しい本の登録</h1>
+	<h1 th:unless="${bookRecordForm.isNew}">本の編集</h1>
 	
 	<!--アクションの分岐：登録or編集-->
 	<form th:action="${bookRecordForm.isNew} ? @{/bookrecordtable/save} : @{/bookrecordtable/update}"
 		th:object="${bookRecordForm}" method="post">
 		<!--更新時に備えてidをhiddenで持つ-->
-<!--		<input type="hidden" th:field="*{id}">-->
-		<input th:field="*{id}">
-		
+		<input type="hidden" th:field="*{id}">
+
+<!--編集用テーブル ここから-->
 		<table border="1">
+	<!--(1)状態-->
 			<tr>
 				<th>状態</th>
 					<td>
@@ -65,6 +66,7 @@
 					</td>
 			</tr>
 			
+	<!--(2)本の種類-->
 			<tr>
 				<th>本の種類<span style="color:red;">※</span></th>
 					<td>
@@ -74,18 +76,16 @@
 						</select>
 					</td>
 			</tr>
-			
+	<!--(3)タイトル-->
 			<tr>
 				<th>タイトル<span style="color:red;">※</span></th>
 					<td>
 						<input id="bookTitle" type="text" th:field="*{title}">
 						<!--バリデーションエラー用表示-->
 						<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;">
-							
-						
 					</td>
 			</tr>
-			
+	<!--(4)著者-->
 			<tr>
 				<th>著者<span style="color:red;">※</span></th>
 					<td>
@@ -94,43 +94,42 @@
 						<span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;">
 					</td>
 			</tr>
-			
+	<!--(5)出版社-->
 			<tr>
 				<th>出版社</th>
 					<td>
 						<input type="text" th:field="*{publisher}">
 					</td>
 			</tr>
-			
+	<!--(6)読み始めた日-->
 			<tr>
 				<th>読書開始日</th>
 					<td>
 						<input type="date" th:field="*{date_start}">
 					</td>
 			</tr>
-
+	<!--(7)読み終わった日-->
 			<tr>
 				<th>読書完了日</th>
 					<td>
 						<input type="date" th:field="*{date_finished}">
 					</td>
 			</tr>
-			
-
+	<!--(8)購入した日-->
 			<tr>
 				<th>購入日</th>
 					<td>
 						<input type="date" th:field="*{date_purchase}">
 					</td>
 			</tr>
-			
+	<!--(9)価格-->
 			<tr>
 				<th>価格(ハイフン抜き)</th>
 					<td>
 						<input type="text" th:field="*{price}">
 					</td>
 			</tr>
-			
+	<!--(10)読書感想文-->
 			<tr>
 				<th>感想</th>
 					<td>
@@ -140,39 +139,29 @@
 						<span th:if="${#fields.hasErrors('impression')}" th:errors="*{impression}" style="color: red;">
 					</td>
 			</tr>
-			
-<!--書影まわり-->
-<!--			<tr>-->
-<!--				<th>-->
-<!--					<center>-->
-<!--					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>-->
-<!--					</center>-->
-<!--				</th>-->
-<!--					<td>-->
-<!--						<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">-->
-<!--											</td>-->
-<!--				</tr>-->
-				
-				<!-- 表紙画像を検索するボタン -->
-							<tr>
-								<th>
-									<center>
-									    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
-									</center>
-								</th>
-								<td>
-									<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
-								</td>
-							</tr>
+	<!--(11)書影-->
+<!--書影まわりの処理-->
+			<tr>
+				<th>
+					<center>
+					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
+					</center>
+				</th>
+				<td>
+					<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
+				</td>
+			</tr>
 
-							<!-- 表紙画像のURLを格納する非表示の入力フィールド -->
-							<tr style="display:none;">
-								<th>表紙画像URL</th>
-								<td>
-									<input type="text" id="image_url" th:field="*{image_url}" />
-								</td>
-							</tr>
-<!--書影まわり-->
+			<!-- 表紙画像のURLを格納する非表示の入力フィールド -->
+			<tr style="display:none;">
+				<th>表紙画像URL</th>
+				<td>
+					<input type="text" id="image_url" th:field="*{image_url}" />
+				</td>
+			</tr>
+<!--書影まわりの処理-->
+
+<!--(12)反映ボタン-->
 			<tr>
 				<td colspan="2">
 		<center>
@@ -184,12 +173,13 @@
 				</td>
 			</tr>
 		</table>
+<!--編集用テーブル ここまで-->
 	
 	</form>
 	<center>
 			<button th:unless="${bookRecordForm.isNew}" th:onclick="|location.href='@{/bookrecordtable/{id}(id=${bookRecordForm.id})}'|">編集せず、読書記録詳細へ戻る</button>
 	<hr width="80%">
-	<button th:onclick="|location.href='@{/bookrecordtable}'|">読書リスト 一覧へ</button>
+	<button th:onclick="|location.href='@{/bookrecordtable}'|">編集せず、読書リスト 一覧へ戻る</button>
 	</center>
 	
 </body>

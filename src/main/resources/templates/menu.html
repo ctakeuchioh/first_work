@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
 <title>メニュー</title>
@@ -9,8 +10,15 @@
 
 <body>
 	<h2>いい本と出会った？</h2>
+		<div sec:authentication="name">
+			ログイン情報のname値に書き変わる
+		</div>
+		<div sec:authorize="isAuthenticated()">
+			認証された場合のみ表示
+		</div>
 	<hr width="80%">
 	<center>
+		
 		3秒後に書庫へ遷移します。<br>
 		自動で遷移しない場合はリンクをクリック：
 	<a th:href="@{/bookrecordtable}">読書リスト 一覧へ</a>
