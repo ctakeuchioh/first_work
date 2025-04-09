@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>読書記録　一覧</title>
-<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+<link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 <script>
 <!--footer導入-->
 //  fetch("/footer.html")
@@ -24,26 +24,27 @@
 	</p>
 	</center>
 	
+	<table class="table-invisible">
+		<tr class="table-invisible">
+			<td  class="table-invisible">
 	<div align="right">
 	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
 	</div>
+			</td>
+		</tr>
+	</table>
 	
-<main>
+<!--一覧表　ここから-->
 	<table class="table-list" border="1" >
-		<thread>
+ 		<thread>
 			<tr>
 				<th>ID</th>
-				<th>状態
-				</th>
-<!--				<th>本の種類</th>-->
+				<th>状態</th>
+				<th>お気に入り</th>
 				<th>タイトル</th>
 				<th>著者</th>
-<!--				<th>出版社</th>-->
 				<th>読書開始日</th>
 				<th>読了日</th>
-<!--				<th>購入日</th>-->
-<!--				<th>価格</th>-->
-<!--				<th>読書感想文</th>-->
 				<th>書影</th>
 				<th>詳細</th>
 				<th>検索</th>
@@ -52,7 +53,7 @@
 		<tbody>
 			<tr th:each="bookrecord: ${bookrecordtable}">
 				<td th:text="${bookrecord.id}"></td>
-			<!--アイコンの分岐-->
+			<!--状態アイコンの分岐　ここから-->
 				<td>
 					<!-- 状態に応じて画像を切り替え -->
 					<span th:switch="${bookrecord.book_status}">
@@ -67,7 +68,7 @@
 						</span>
 					</span>
 				</td>
-				
+				<td>★</td>
 				<td th:text="${bookrecord.title}"></td>
 				<td th:text="${bookrecord.author}"></td>
 				<td th:text="${bookrecord.date_start}"></td>
@@ -75,6 +76,8 @@
 				<td>
 					<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 50px; height: auto;" />	
 				</td>
+			<!--状態アイコンの分岐　ここまで-->
+				
 				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
 						詳細/編集
@@ -88,22 +91,19 @@
 			</tr>
 		</tbody>
 	</table>
-</main>
+<!--一覧表　ここまで-->
 
-<table>
-	<div align="right">
-		<form th:action="@{/logout}" method="post">
-			<button>ログアウト</button>
-		</form>
-<!--<button id="logoutButton" class="btn-delete" type="submit" onclick="return confirmLogout()">ログアウト</button>-->
-
-<!--<script>-->
-<!--    function confirmLogout() {-->
-<!--        // 確認ダイアログを表示-->
-<!--        return confirm("本当にログアウトしますか？");-->
-<!--    }-->
-<!--</script>-->
-	</div>
+<!--ログアウト処理-->
+<table class="table-invisible">
+		<tr class="table-invisible">
+			<td  class="table-invisible">
+				<div align="right">
+					<form th:action="@{/logout}" method="post">
+						<button>ログアウト</button>
+					</form>
+				</div>
+			</td>
+		</tr>
 </table>
 
 </body>

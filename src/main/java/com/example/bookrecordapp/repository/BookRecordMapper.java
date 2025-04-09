@@ -21,6 +21,9 @@ public interface BookRecordMapper {
 	//指定されたタイトルの本の記録を取得
 	BookRecord selectByTitle(@Param("title") String title);
 	
+	//指定された状態の本の記録を取得
+	BookRecord selectByBook_status(@Param("book_status") String book_status);
+	
 	//本の記録を登録
 	void insert(BookRecord bookRecord);
 	

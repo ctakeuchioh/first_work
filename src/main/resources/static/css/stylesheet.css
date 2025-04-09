@@ -32,7 +32,57 @@ p.p-flash {
 	font-size: larger;
 }
 
-/* 一覧表ページのテーブルのスタイル */
+/* メニューページのテーブルのスタイル================= */
+table.table-menu {
+    width: 60%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #ffffff; /* 白い背景 */
+    border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
+}
+
+th.table-menu, td.table-menu {
+    padding: 10px;
+    text-align: left;
+}
+
+th.table-menu {
+    background-color: rgb(214, 173, 169);
+    color: rgb(128, 0, 0);
+	text-align: center;
+}
+
+td.table-menu {
+    background-color: #f4f4f4; /* 淡いグレー */
+}
+
+td.table-menu2 {
+    background-color: #f4f4f4; /* 淡いグレー */
+	text-align: left;
+}
+/*=================ここまで=================*/
+
+
+/* 見せないテーブルのスタイル================= */
+table.table-invisible {
+    width: 90%;
+    margin: 20px auto;
+	background-color:transparent;
+	border:none;
+}
+
+th.table-invisible, td.table-invisible {
+    padding: 10px;
+    text-align: right;
+	background-color:transparent;
+	border:none;
+}
+
+
+/*=================ここまで=================*/
+
+
+/* 一覧表ページのテーブルのスタイル================= */
 table.table-list {
     width: 90%;
     margin: 20px auto;
@@ -41,21 +91,23 @@ table.table-list {
     border: 1px solid #c5c5a9; /* 淡い茶色の枠 */
 }
 
-th, td {
+th.table-list, td.table-list {
     padding: 10px;
     text-align: left;
 }
 
-th {
+th.table-list {
     background-color: #d9e8d0; /* 淡い緑色 */
     color: #4c7c4c; /* 少し濃い緑色 */
 }
 
-td {
+td.table-list {
     background-color: #f4f4f4; /* 淡いグレー */
 }
+/*=================ここまで=================*/
 
-/* テーブルのスタイル */
+
+/* テーブルのスタイル================= */
 table {
     width: 90%;
     margin: 20px auto;
@@ -88,8 +140,10 @@ td {
 		table:not(.table-list) td:nth-child(2) {
 		    width: 80%;
 		}
-
-/* ボタンのスタイル */
+/*=================ここまで=================*/
+		
+		
+/* ボタンのスタイル================= */
 button {
     background-color: #c8b29a; /* 淡い茶色 */
     border: none;
@@ -103,8 +157,10 @@ button {
 button:hover {
     background-color: #a98e6a; /* ボタンホバー時の色 */
 }
+/*=================ここまで=================*/
 
-/* 新規や更新用ボタン：淡いピンク系 */
+
+/* 新規や更新用ボタン：淡いピンク系================= */
 button.btn-edit {
     background-color: #f8d7da;  /* 淡いピンク */
     color: #721c24;  /* ピンクに合うダークな文字色 */
@@ -119,8 +175,10 @@ button.btn-edit:hover {
 button.btn-edit:active {
     background-color: #f1a7b5;  /* アクティブ時 */
 }
+/*=================ここまで=================*/
 
-/* 削除用ボタン：グレー系 */
+
+/* 削除用ボタン：グレー系================= */
 button.btn-delete {
     background-color: #d3d3d3;  /* 淡いグレーの背景色 */
     color: #333333;  /* ダークグレーの文字色 */
@@ -135,8 +193,10 @@ button.btn-delete:hover {
 button.btn-delete:active {
     background-color: #a9a9a9;  /* アクティブ時 */
 }
+/*=================ここまで=================*/
 
-/* リンクのスタイル */
+
+/* リンクのスタイル================= */
 a {
     text-decoration: none;
     color: #4c7c4c;
@@ -147,3 +207,4 @@ a {
 a:hover {
     color: #9a7f51; /* 少し濃い茶色 */
 }
+/*=================ここまで=================*/

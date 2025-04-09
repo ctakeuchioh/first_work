@@ -38,7 +38,10 @@ CREATE TABLE bookrecordtable (
 		impression varchar(1000),
 		
 		--書影(任意)
-		image_url VARCHAR(1000)
+		image_url VARCHAR(1000),
+		
+		--お気に入り
+		fav integer
 );
 
 -- 権限用のENUM型
@@ -51,4 +54,7 @@ username VARCHAR(50) PRIMARY KEY,
 password VARCHAR(255) NOT NULL,
 -- 権限
 authority role NOT NULL
+-- 表示名
+displayname VARCHAR(50) NOT NULL
+);
 );

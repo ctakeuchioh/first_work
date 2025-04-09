@@ -47,6 +47,8 @@ public class BookRecord {
 //	--書影(任意)
 	private String image_url;
 	
+//	--お気に入り
+	private Integer fav;
 
 
 }

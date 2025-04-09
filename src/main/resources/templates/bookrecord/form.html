@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>読書記録　入力フォーム</title>
-<link th:href="@{/stylesheet.css}" rel="stylesheet" />
+<link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 <script>
+//★書影を取得するためのスクリプト
 	    function searchBookCover() {
 	        var title = document.getElementById('bookTitle').value; // 入力された書籍名を取得
 	        if (title) {
