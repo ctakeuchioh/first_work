@@ -23,10 +23,10 @@ h2 {
 
 /* フラッシュメッセージのスタイル */
 p.p-flash {
-	width:50%;
+	width:100%;
 	padding: 10px; 
 	margin-bottom: 10px; 
-	border: 3px dashed rgb(0, 128, 128);
+	background-color: rgb(255, 255, 217);
 	text-align: center;
 	font-weight: bold;
 	font-size: larger;
@@ -69,6 +69,7 @@ table.table-invisible {
     margin: 20px auto;
 	background-color:transparent;
 	border:none;
+	table-layout: auto; /* 自動レイアウト */
 }
 
 th.table-invisible, td.table-invisible {
@@ -78,6 +79,16 @@ th.table-invisible, td.table-invisible {
 	border:none;
 }
 
+	/* 1列目の幅を90%、2列目の幅を10%に設定（.table-invisibleクラスが適用されたtableにのみ適用) */
+	table.table-invisible th:nth-child(1), 
+	table.table-invisible td:nth-child(1) {
+	    width: 90%;
+	}
+	
+	table.table-invisible th:nth-child(2), 
+	table.table-invisible td:nth-child(2) {
+	    width: 10%;
+	}
 
 /*=================ここまで=================*/
 

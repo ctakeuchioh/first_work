@@ -43,6 +43,20 @@
 			</td>
 		</tr>
 		<tr>
+			<th>お気に入り</th>
+				<td>
+					<!-- お気に入りが1なら、画像を表示する -->
+					<span th:switch="${bookrecord.fav}">
+						<span th:case="'1'">
+							<img th:src="@{/image/icon_fav.png}" width="30" alt="お気に入り">
+						</span>
+						<span th:case="'0'">
+							<div></div>
+						</span>
+					</span>
+				</td>
+		</tr>
+		<tr>
 			<th>本の種類</th>
 			<td th:text="${bookrecord.book_type}"></td>
 		</tr>

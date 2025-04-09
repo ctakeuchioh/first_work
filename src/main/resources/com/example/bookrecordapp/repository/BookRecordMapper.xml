@@ -40,7 +40,8 @@
 		date_purchase = #{date_purchase}, 
 		price = #{price}, 
 		impression = #{impression}, 
-		image_url = #{image_url}
+		image_url = #{image_url},
+		fav = #{fav}
 	WHERE id = #{id}
 	</update>
 

@@ -77,6 +77,16 @@
 						</select>
 					</td>
 			</tr>
+			
+	<!--(13)お気に入り-->			
+			<tr>
+				<th>お気に入り</th>
+					<td>
+						<input type="checkbox" name="fav" th:field="*{fav}" value="1" 
+						       th:checked="${fav == 1 ? true : false}">
+					</td>
+			</tr>
+			
 	<!--(3)タイトル-->
 			<tr>
 				<th>タイトル<span style="color:red;">※</span></th>
