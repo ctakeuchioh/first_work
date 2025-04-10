@@ -31,13 +31,13 @@
 				<!-- 状態に応じて画像を切り替え -->
 				<td><span th:switch="${bookrecord.book_status}">
 					<span th:case="'読了'">
-						<img th:src="@{/image/icon_done.png}" width="60" alt="読了">
+						<img th:src="@{/image/icon_done.png}" width="60" alt="読了">読了
 					</span>
 					<span th:case="'積読'">
-						<img th:src="@{/image/icon_tsundoku.png}" width="60" alt="積読">
+						<img th:src="@{/image/icon_tsundoku.png}" width="60" alt="積読">積読
 					</span>
 					<span th:case="'読書中'">
-						<img th:src="@{/image/icon_dokusyo.png}" width="60" alt="読書中">
+						<img th:src="@{/image/icon_dokusyo.png}" width="60" alt="読書中">読書中
 					</span>
 				</span>
 			</td>

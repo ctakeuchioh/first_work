@@ -64,8 +64,8 @@
 	            alert('書籍名を入力してください');
 	        }
 	    }
+//★書影を取得するためのスクリプト(改善版)　ここまで
 	</script>
-
 </head>
 
 <body>
@@ -80,9 +80,6 @@
 		<input type="hidden" th:field="*{id}">
 
 <!--編集用テーブル ここから-->
-<!--このformは改良版用-->
-	<form th:action="${bookRecordForm.isNew} ? @{/bookrecordtable/save} : @{/bookrecordtable/update}" th:object="${bookRecordForm}" method="post">
-<!--このformは改良版用-->
 		<table border="1">
 	<!--(1)状態-->
 			<tr>
@@ -126,6 +123,7 @@
 	            </td>
 	        </tr>
 
+	<!--(4)著者-->
 	        <tr>
 	            <th>著者<span style="color:red;">※</span></th>
 	            <td>
@@ -134,23 +132,7 @@
 	                <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;"></span>
 	            </td>
 	        </tr>
-<!--			<tr>-->
-<!--				<th>タイトル<span style="color:red;">※</span></th>-->
-<!--					<td>-->
-<!--						<input id="bookTitle" type="text" th:field="*{title}">-->
-<!--						バリデーションエラー用表示-->
-<!--						<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;">-->
-<!--					</td>-->
-<!--			</tr>-->
-<!--	(4)著者-->
-<!--			<tr>-->
-<!--				<th>著者<span style="color:red;">※</span></th>-->
-<!--					<td>-->
-<!--						<input type="text" th:field="*{author}">-->
-<!--						バリデーションエラー用表示-->
-<!--						<span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;">-->
-<!--					</td>-->
-<!--			</tr>-->
+
 	<!--(5)出版社-->
 			<tr>
 				<th>出版社</th>
@@ -196,28 +178,9 @@
 						<span th:if="${#fields.hasErrors('impression')}" th:errors="*{impression}" style="color: red;">
 					</td>
 			</tr>
+
 	<!--(11)書影-->
 <!--書影まわりの処理-->
-<!--			<tr>-->
-<!--				<th>-->
-<!--					<center>-->
-<!--					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>-->
-<!--					</center>-->
-<!--				</th>-->
-<!--				<td>-->
-<!--					<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">-->
-<!--				</td>-->
-<!--			</tr>-->
-
-<!--			 表紙画像のURLを格納する非表示の入力フィールド -->
-<!--			<tr style="display:none;">-->
-<!--				<th>表紙画像URL</th>-->
-<!--				<td>-->
-<!--					<input type="text" id="image_url" th:field="*{image_url}" />-->
-<!--				</td>-->
-<!--			</tr>-->
-<!--書影まわりの処理-->
-
 <tr>
             <th>書影
                      <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
@@ -241,6 +204,7 @@
                 <input type="text" id="image_url" th:field="*{image_url}" />
             </td>
         </tr>
+<!--書影まわりの処理-->
  
 
 <!--(12)反映ボタン-->

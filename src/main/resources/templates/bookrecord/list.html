@@ -5,21 +5,12 @@ xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 <meta charset="UTF-8">
 <title>読書記録　一覧</title>
 <link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
-<script>
-<!--footer導入-->
-//  fetch("/footer.html")
-//    .then((response) => response.text())
-//    .then((data) => document.querySelector("#footer").innerHTML = data);
-</script>
 </head>
 
 <body>
 	<h1 th:text="${#authentication.principal.displayname}+さんの読書リスト"></h1>
 	
-	
-
-	</table>
-	
+<!--メッセージと新規登録ボタンのエリア-->
 	<table class="table-invisible">
 		<tr class="table-invisible">
 		<!--Flashメッセージの表示-->
@@ -40,6 +31,7 @@ xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 				</div>
 			</td>
 		</tr>
+<!--外部サイトへ本探しエリア-->
 		<tr>
 			<td colspan="2" class="table-invisible">
 				<a href="https://www.e-hon.ne.jp/bec/SE/Genre?ccode=99&dcode=06" target="_blank">紙の本 ランキング</a>　<a href="https://honto.jp/ranking.html" target="_blank">電子書籍 ランキング</a>
@@ -48,19 +40,19 @@ xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 	</table>
 	
 <!--一覧表　ここから-->
-	<table class="table-list" border="1">
+	<table class="table-list">
  		<thread>
 			<tr>
-				<th>ID</th>
-				<th>状態</th>
-				<th>お気に入り</th>
-				<th>書影</th>
-				<th>タイトル</th>
-				<th>著者</th>
-				<th>読書開始日</th>
-				<th>読了日</th>
-				<th>詳細</th>
-				<th>検索</th>
+				<th class="table-list">ID</th>
+				<th class="table-list">ステータス</th>
+				<th class="table-list">お気に入り</th>
+				<th class="table-list">書影</th>
+				<th class="table-list">タイトル</th>
+				<th class="table-list">著者</th>
+				<th class="table-list">読書開始日</th>
+				<th class="table-list">読了日</th>
+				<th class="table-list">詳細/<br>編集</th>
+				<th class="table-list">Google<br>検索</th>
 			</tr>
 		</thread>
 		<tbody>
@@ -71,13 +63,13 @@ xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 					<!-- 状態に応じて画像を切り替え -->
 					<span th:switch="${bookrecord.book_status}">
 						<span th:case="'読了'">
-							<img th:src="@{/image/icon_done.png}" width="60" alt="読了">
+							<center><img th:src="@{/image/icon_done.png}" width="45" alt="読了"></center>
 						</span>
 						<span th:case="'積読'">
-							<img th:src="@{/image/icon_tsundoku.png}" width="60" alt="積読">
+							<center><img th:src="@{/image/icon_tsundoku.png}" width="45" alt="積読"></center>
 						</span>
 						<span th:case="'読書中'">
-							<img th:src="@{/image/icon_dokusyo.png}" width="60" alt="読書中">
+							<center><img th:src="@{/image/icon_dokusyo.png}" width="45" alt="読書中"></center>
 						</span>
 					</span>
 				</td>
@@ -111,13 +103,15 @@ xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 <!--詳細・編集画面へのリンク-->
 				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
-						詳細/編集
+<!--						詳細/編集-->
+						<img th:src="@{/image/icon_edit.png}" width="50" alt="詳細/編集">
 					</a>
 				</td>
 <!--検索ボタン-->
 				<td>
 				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title} + '+' + ${bookrecord.author}" target="_blank">
-				       <button>Googleで検索</button>
+<!--				       <button>Googleで検索</button>-->
+							<img th:src="@{/image/icon_google_search.png}" width="50" alt="Googleで検索">
 				   </a>
 				   </td>
 			</tr>
