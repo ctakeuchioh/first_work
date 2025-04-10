@@ -1,5 +1,7 @@
 --テーブルが存在したら削除する
 DROP TABLE IF EXISTS bookrecordtable;
+DROP TABLE IF EXISTS authentications;
+DROP TYPE IF EXISTS role;
 
 --テーブルの作成
 CREATE TABLE bookrecordtable (
@@ -36,7 +38,23 @@ CREATE TABLE bookrecordtable (
 		impression varchar(1000),
 		
 		--書影(任意)
-		image_url VARCHAR(1000)
+		image_url VARCHAR(1000),
+		
+		--お気に入り
+		fav integer
+);
 
-	
-)
+-- 権限用のENUM型
+CREATE TYPE role AS ENUM ('ADMIN', 'USER');
+-- 認証情報を格納するテーブル
+CREATE TABLE authentications (
+-- ユーザー名：主キー
+username VARCHAR(50) PRIMARY KEY,
+-- パスワード
+password VARCHAR(255) NOT NULL,
+-- 権限
+authority role NOT NULL
+-- 表示名
+displayname VARCHAR(50) NOT NULL
+);
+);

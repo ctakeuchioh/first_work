@@ -1,5 +1,7 @@
 package com.example.bookrecordapp.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,17 +55,14 @@ public class BookRecordController {
 		}
 	} //detailメソッド
 	
-	//表紙画像の処理
-//    @GetMapping("/book/{id}")
-//    public String getBookRecord(@PathVariable Integer id, Model model) {
-//        // データベースから書籍情報を取得
-//        BookRecord bookRecord = bookRecordService.findByIdBookRecord(id);
-//
-//        // Thymeleafのテンプレートにデータを渡す
-//        model.addAttribute("bookRecord", bookRecord);
-//
-//        return "bookRecordDetail"; // 画像URLを表示するためのテンプレート
-//    }	
+	
+	@GetMapping("/bookrecordapp")
+	public String showBookRecords(Model model) {
+	    List<BookRecord> bookRecords = bookRecordService.findAllBookRecord(); 
+	    model.addAttribute("bookrecordtable", bookRecords);
+	    return "/templates/menu";  // ビュー名（テンプレート名）
+	}
+	
 	
 	
 /* === 登録・更新処理 === */
@@ -137,18 +136,6 @@ public class BookRecordController {
 	}
 	
 	
-//	//書影を表示する
-//	@GetMapping("/image")
-//	public String getImagePage(@PathVariable Integer id,Model model) {
-//	    // データベースから画像URLを取得する
-//	    BookRecord imgurl = bookRecordService.findByIdBookRecord(id);
-//	    if (imgurl != null && imgurl.getImage_url() != null) {
-//	        model.addAttribute("imagePath", imgurl.getImage_url());
-//	    } else {
-//	        model.addAttribute("imagePath", "画像がありません"); // 画像がない場合のデフォルト画像
-//	    }
-//	    return "imagePage";
-//	}
 	
 	/* === 指定されたIDの記録を削除 === */
 	@PostMapping("/delete/{id}")

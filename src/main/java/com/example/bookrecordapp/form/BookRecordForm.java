@@ -52,6 +52,9 @@ public class BookRecordForm {
 //	--書影(任意)
 	private String image_url;
 	
+//	--書影(任意)
+	private Integer fav;
+	
 //	新規判定
 	private Boolean isNew;
 	

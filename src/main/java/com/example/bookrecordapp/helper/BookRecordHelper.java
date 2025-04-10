@@ -22,6 +22,7 @@ public class BookRecordHelper {
 		book.setPrice(form.getPrice());
 		book.setImpression(form.getImpression());
 		book.setImage_url(form.getImage_url());
+		book.setFav(form.getFav());
 		return book;
 	}
 
@@ -40,6 +41,7 @@ public class BookRecordHelper {
 		form.setPrice(book.getPrice());
 		form.setImpression(book.getImpression());
 		form.setImage_url(book.getImage_url());
+		form.setFav(book.getFav());
 		//更新画面設定
 		form.setIsNew(false);
 		return form;

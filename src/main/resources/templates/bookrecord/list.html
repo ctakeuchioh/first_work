@@ -1,96 +1,136 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
 <title>読書記録　一覧</title>
-<link th:href="@{/stylesheet.css}" rel="stylesheet" />
-<script>
-<!--footer導入-->
-  fetch("/footer.html")
-    .then((response) => response.text())
-    .then((data) => document.querySelector("#footer").innerHTML = data);
-</script>
+<link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 </head>
 
 <body>
-	<h2>読書リスト　一覧</h2>
-	<!--Flashメッセージの表示-->
-	<center>
-	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: #4c7c4c;">完了メッセージ
-	</p>
-	<p class="p-flash" th:if="${errorMessage}"
-		th:text="${errorMessage}" style="color: deeppink;">
-		エラーメッセージ
-	</p>
-	</center>
+	<h1 th:text="${#authentication.principal.displayname}+さんの読書リスト"></h1>
 	
-	<div align="right">
-	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
-	</div>
+<!--メッセージと新規登録ボタンのエリア-->
+	<table class="table-invisible">
+		<tr class="table-invisible">
+		<!--Flashメッセージの表示-->
+			<td  class="table-invisible" style="width: 80%;">
+				<center>
+					<p class="p-flash" th:if="${message}" th:text="${message}" style="color: indianred;">完了メッセージ
+					</p>
+					<p class="p-flash" th:if="${errorMessage}"
+						th:text="${errorMessage}" style="color: deeppink;">
+						エラーメッセージ
+					</p>
+					</center>
+			</td>
+		<!--新規登録ボタン-->
+			<td  class="table-invisible" style="width: 20%;"> 
+				<div align="right">
+					<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
+				</div>
+			</td>
+		</tr>
+<!--外部サイトへ本探しエリア-->
+		<tr>
+			<td colspan="2" class="table-invisible">
+				<a href="https://www.e-hon.ne.jp/bec/SE/Genre?ccode=99&dcode=06" target="_blank">紙の本 ランキング</a>　<a href="https://honto.jp/ranking.html" target="_blank">電子書籍 ランキング</a>
+			</td>
+		</tr>
+	</table>
 	
-<main>
-	<table class="table-list" border="1" >
-		<thread>
+<!--一覧表　ここから-->
+	<table class="table-list">
+ 		<thread>
 			<tr>
-				<th>ID</th>
-				<th>状態
-				</th>
-<!--				<th>本の種類</th>-->
-				<th>タイトル</th>
-				<th>著者</th>
-<!--				<th>出版社</th>-->
-				<th>読書開始日</th>
-				<th>読了日</th>
-<!--				<th>購入日</th>-->
-<!--				<th>価格</th>-->
-<!--				<th>読書感想文</th>-->
-				<th>書影</th>
-				<th>詳細</th>
-				<th>検索</th>
+				<th class="table-list">ID</th>
+				<th class="table-list">ステータス</th>
+				<th class="table-list">お気に入り</th>
+				<th class="table-list">書影</th>
+				<th class="table-list">タイトル</th>
+				<th class="table-list">著者</th>
+				<th class="table-list">読書開始日</th>
+				<th class="table-list">読了日</th>
+				<th class="table-list">詳細/<br>編集</th>
+				<th class="table-list">Google<br>検索</th>
 			</tr>
 		</thread>
 		<tbody>
 			<tr th:each="bookrecord: ${bookrecordtable}">
 				<td th:text="${bookrecord.id}"></td>
-			<!--アイコンの分岐-->
+			<!--状態アイコンの分岐　ここから-->
 				<td>
 					<!-- 状態に応じて画像を切り替え -->
 					<span th:switch="${bookrecord.book_status}">
 						<span th:case="'読了'">
-							<img th:src="@{/image/icon_done.png}" width="50" alt="読了">
+							<center><img th:src="@{/image/icon_done.png}" width="45" alt="読了"></center>
 						</span>
 						<span th:case="'積読'">
-							<img th:src="@{/image/icon_tsundoku.png}" width="50" alt="積読">
+							<center><img th:src="@{/image/icon_tsundoku.png}" width="45" alt="積読"></center>
 						</span>
 						<span th:case="'読書中'">
-							<img th:src="@{/image/icon_dokusyo.png}" width="50" alt="読書中">
+							<center><img th:src="@{/image/icon_dokusyo.png}" width="45" alt="読書中"></center>
 						</span>
 					</span>
 				</td>
 				
-				<td th:text="${bookrecord.title}"></td>
-				<td th:text="${bookrecord.author}"></td>
-				<td th:text="${bookrecord.date_start}"></td>
-				<td th:text="${bookrecord.date_finished}"></td>
+<!--お気に入りアイコン表示の分岐-->
+				<td>
+					<!-- お気に入りが1なら、画像を表示する -->
+					<span th:switch="${bookrecord.fav}">
+						<span th:case="'1'">
+							<center><img th:src="@{/image/icon_fav.png}" width="30" alt="お気に入り"></center>
+						</span>
+						<span th:case="'0'">
+							<div></div>
+						</span>
+					</span>
+				</td>
+<!--お気に入りアイコン表示の分岐　ここまで-->
+
+<!--書影-->
 				<td>
 					<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 50px; height: auto;" />	
 				</td>
+<!--タイトル-->
+				<td th:text="${bookrecord.title}"></td>
+<!--著者-->
+				<td th:text="${bookrecord.author}"></td>
+<!--読み始めた日-->
+				<td th:text="${bookrecord.date_start}"></td>
+<!--読み終わった日-->
+				<td th:text="${bookrecord.date_finished}"></td>
+<!--詳細・編集画面へのリンク-->
 				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
-						詳細/編集
+<!--						詳細/編集-->
+						<img th:src="@{/image/icon_edit.png}" width="50" alt="詳細/編集">
 					</a>
 				</td>
+<!--検索ボタン-->
 				<td>
 				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title} + '+' + ${bookrecord.author}" target="_blank">
-				       <button>Googleで検索</button>
+<!--				       <button>Googleで検索</button>-->
+							<img th:src="@{/image/icon_google_search.png}" width="50" alt="Googleで検索">
 				   </a>
 				   </td>
 			</tr>
 		</tbody>
 	</table>
-</main>
+<!--一覧表　ここまで-->
 
- <div id="footer"></div>
+<!--ログアウト処理-->
+<table class="table-invisible">
+		<tr class="table-invisible">
+			<td  class="table-invisible">
+				<div align="right">
+					<form th:action="@{/logout}" method="post">
+						<button>ログアウト</button>
+					</form>
+				</div>
+			</td>
+		</tr>
+</table>
 
 </body>
 </html>
