@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
 <title>読書記録　一覧</title>
@@ -13,32 +14,18 @@
 </head>
 
 <body>
-	<h1>読書リスト　一覧</h1>
-	<!--Flashメッセージの表示-->
-<!--	<center>-->
-<!--	<p class="p-flash" th:if="${message}" th:text="${message}" style="color: rgb(0, 200, 150);">完了メッセージ-->
-<!--	</p>-->
-<!--	<p class="p-flash" th:if="${errorMessage}"-->
-<!--		th:text="${errorMessage}" style="color: deeppink;">-->
-<!--		エラーメッセージ-->
-<!--	</p>-->
-<!--	</center>-->
+	<h1 th:text="${#authentication.principal.displayname}+さんの読書リスト"></h1>
 	
-<!--	<table class="table-invisible">-->
-<!--		<tr class="table-invisible">-->
-<!--			<td  class="table-invisible">-->
-<!--	<div align="right">-->
-<!--	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>-->
-<!--	</div>-->
-<!--			</td>-->
-<!--		</tr>-->
+	
+
 	</table>
 	
 	<table class="table-invisible">
 		<tr class="table-invisible">
+		<!--Flashメッセージの表示-->
 			<td  class="table-invisible" style="width: 80%;">
 				<center>
-					<p class="p-flash" th:if="${message}" th:text="${message}" style="color: rgb(0, 200, 150);">完了メッセージ
+					<p class="p-flash" th:if="${message}" th:text="${message}" style="color: indianred;">完了メッセージ
 					</p>
 					<p class="p-flash" th:if="${errorMessage}"
 						th:text="${errorMessage}" style="color: deeppink;">
@@ -46,26 +33,32 @@
 					</p>
 					</center>
 			</td>
+		<!--新規登録ボタン-->
 			<td  class="table-invisible" style="width: 20%;"> 
-	<div align="right">
-	<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
-	</div>
+				<div align="right">
+					<button class="btn-edit" th:onclick="|location.href='@{/bookrecordtable/form}'|">新しい本を登録する</button>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="table-invisible">
+				<a href="https://www.e-hon.ne.jp/bec/SE/Genre?ccode=99&dcode=06" target="_blank">紙の本 ランキング</a>　<a href="https://honto.jp/ranking.html" target="_blank">電子書籍 ランキング</a>
 			</td>
 		</tr>
 	</table>
 	
 <!--一覧表　ここから-->
-	<table class="table-list" border="1" >
+	<table class="table-list" border="1">
  		<thread>
 			<tr>
 				<th>ID</th>
 				<th>状態</th>
 				<th>お気に入り</th>
+				<th>書影</th>
 				<th>タイトル</th>
 				<th>著者</th>
 				<th>読書開始日</th>
 				<th>読了日</th>
-				<th>書影</th>
 				<th>詳細</th>
 				<th>検索</th>
 			</tr>
@@ -103,19 +96,25 @@
 				</td>
 <!--お気に入りアイコン表示の分岐　ここまで-->
 
-				<td th:text="${bookrecord.title}"></td>
-				<td th:text="${bookrecord.author}"></td>
-				<td th:text="${bookrecord.date_start}"></td>
-				<td th:text="${bookrecord.date_finished}"></td>
+<!--書影-->
 				<td>
 					<img th:src="@{${bookrecord.image_url}}" alt="書籍の表紙" style="max-width: 50px; height: auto;" />	
 				</td>
-				
+<!--タイトル-->
+				<td th:text="${bookrecord.title}"></td>
+<!--著者-->
+				<td th:text="${bookrecord.author}"></td>
+<!--読み始めた日-->
+				<td th:text="${bookrecord.date_start}"></td>
+<!--読み終わった日-->
+				<td th:text="${bookrecord.date_finished}"></td>
+<!--詳細・編集画面へのリンク-->
 				<td>
 					<a th:href="@{/bookrecordtable/{id}(id=${bookrecord.id})}">
 						詳細/編集
 					</a>
 				</td>
+<!--検索ボタン-->
 				<td>
 				<a th:href="'https://www.google.com/search?q=' + ${bookrecord.title} + '+' + ${bookrecord.author}" target="_blank">
 				       <button>Googleで検索</button>

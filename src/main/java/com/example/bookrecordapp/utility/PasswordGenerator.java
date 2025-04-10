@@ -24,5 +24,12 @@ public class PasswordGenerator {
 	//表示
 	System.out.println("ハッシュ化されたパスワード(user)： " + encodedPasswordUser);
 	
+	//入力値
+	String rawPasswordRead = "readerpass";
+	//パスワードをハッシュ化
+	String encodedPasswordRead = encoder.encode(rawPasswordRead);
+	//表示
+	System.out.println("ハッシュ化されたパスワード(reader)： " + encodedPasswordRead);
+	
 	}
 }

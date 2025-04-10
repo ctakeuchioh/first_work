@@ -5,27 +5,53 @@
 <title>読書記録　入力フォーム</title>
 <link th:href="@{/css/stylesheet.css}" rel="stylesheet" />
 <script>
-//★書影を取得するためのスクリプト
+	//★書影を取得するためのスクリプト(改善版)
 	    function searchBookCover() {
 	        var title = document.getElementById('bookTitle').value; // 入力された書籍名を取得
+	        var author = document.querySelector('input[name="author"]').value; // 著者名を取得
+	        
 	        if (title) {
 	            // Google Books APIを利用して書籍情報を検索
 	            var url = 'https://www.googleapis.com/books/v1/volumes?q=' + encodeURIComponent(title);
+	            
+	            // 著者名が入力されている場合、さらに絞り込む
+	            if (author) {
+	                url += '+inauthor:' + encodeURIComponent(author);
+	            }
+
 	            fetch(url)
 	                .then(response => response.json())
 	                .then(data => {
 	                    if (data.items && data.items.length > 0) {
-	                        // 最初の書籍情報を取得
-	                        var book = data.items[0].volumeInfo;
-	                        if (book.imageLinks && book.imageLinks.thumbnail) {
-	                            // 表紙画像のURLを取得して表示
-	                            var imageUrl = book.imageLinks.thumbnail;
-	                            document.getElementById('bookCover').src = imageUrl; // 画像を表示
-	                            document.getElementById('bookCover').style.display = 'block'; // 画像を表示
-	                            document.getElementById('image_url').value = imageUrl;  // 入力フィールドに画像URLをセット
-	                        } else {
-	                            alert('書籍の表紙画像が見つかりませんでした');
-	                        }
+	                        // 複数の書籍候補を表示するリスト
+	                        var bookList = document.getElementById('bookList');
+	                        bookList.innerHTML = ''; // 以前のリストをクリア
+	                        
+	                        data.items.forEach((book, index) => {
+	                            var bookInfo = book.volumeInfo;
+	                            var listItem = document.createElement('li');
+	                            listItem.textContent = bookInfo.title + ' (' + (bookInfo.authors ? bookInfo.authors.join(', ') : '著者不明') + ')';
+	                            
+	                            // 画像があれば表示
+	                            if (bookInfo.imageLinks && bookInfo.imageLinks.thumbnail) {
+	                                var imageUrl = bookInfo.imageLinks.thumbnail;
+	                                var img = document.createElement('img');
+	                                img.src = imageUrl;
+	                                img.style.width = '50px'; // 小さな画像を表示
+	                                listItem.appendChild(img);
+	                            }
+
+	                            // クリックで選択
+	                            listItem.onclick = function() {
+	                                var imageUrl = bookInfo.imageLinks ? bookInfo.imageLinks.thumbnail : '';
+	                                document.getElementById('bookCover').src = imageUrl; // 画像を表示
+	                                document.getElementById('bookCover').style.display = 'block'; // 画像を表示
+	                                document.getElementById('image_url').value = imageUrl; // 入力フィールドに画像URLをセット
+	                            };
+
+	                            // リストに追加
+	                            bookList.appendChild(listItem);
+	                        });
 	                    } else {
 	                        alert('書籍が見つかりませんでした');
 	                    }
@@ -54,6 +80,9 @@
 		<input type="hidden" th:field="*{id}">
 
 <!--編集用テーブル ここから-->
+<!--このformは改良版用-->
+	<form th:action="${bookRecordForm.isNew} ? @{/bookrecordtable/save} : @{/bookrecordtable/update}" th:object="${bookRecordForm}" method="post">
+<!--このformは改良版用-->
 		<table border="1">
 	<!--(1)状態-->
 			<tr>
@@ -88,23 +117,40 @@
 			</tr>
 			
 	<!--(3)タイトル-->
-			<tr>
-				<th>タイトル<span style="color:red;">※</span></th>
-					<td>
-						<input id="bookTitle" type="text" th:field="*{title}">
-						<!--バリデーションエラー用表示-->
-						<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;">
-					</td>
-			</tr>
-	<!--(4)著者-->
-			<tr>
-				<th>著者<span style="color:red;">※</span></th>
-					<td>
-						<input type="text" th:field="*{author}">
-						<!--バリデーションエラー用表示-->
-						<span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;">
-					</td>
-			</tr>
+	        <tr>
+	            <th>タイトル<span style="color:red;">※</span></th>
+	            <td>
+	                <input id="bookTitle" type="text" th:field="*{title}">
+	                <!--バリデーションエラー用表示-->
+	                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;"></span>
+	            </td>
+	        </tr>
+
+	        <tr>
+	            <th>著者<span style="color:red;">※</span></th>
+	            <td>
+	                <input type="text" th:field="*{author}">
+	                <!--バリデーションエラー用表示-->
+	                <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;"></span>
+	            </td>
+	        </tr>
+<!--			<tr>-->
+<!--				<th>タイトル<span style="color:red;">※</span></th>-->
+<!--					<td>-->
+<!--						<input id="bookTitle" type="text" th:field="*{title}">-->
+<!--						バリデーションエラー用表示-->
+<!--						<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red;">-->
+<!--					</td>-->
+<!--			</tr>-->
+<!--	(4)著者-->
+<!--			<tr>-->
+<!--				<th>著者<span style="color:red;">※</span></th>-->
+<!--					<td>-->
+<!--						<input type="text" th:field="*{author}">-->
+<!--						バリデーションエラー用表示-->
+<!--						<span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red;">-->
+<!--					</td>-->
+<!--			</tr>-->
 	<!--(5)出版社-->
 			<tr>
 				<th>出版社</th>
@@ -152,25 +198,50 @@
 			</tr>
 	<!--(11)書影-->
 <!--書影まわりの処理-->
-			<tr>
-				<th>
-					<center>
-					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
-					</center>
-				</th>
-				<td>
-					<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
-				</td>
-			</tr>
+<!--			<tr>-->
+<!--				<th>-->
+<!--					<center>-->
+<!--					    <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>-->
+<!--					</center>-->
+<!--				</th>-->
+<!--				<td>-->
+<!--					<img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">-->
+<!--				</td>-->
+<!--			</tr>-->
 
-			<!-- 表紙画像のURLを格納する非表示の入力フィールド -->
-			<tr style="display:none;">
-				<th>表紙画像URL</th>
-				<td>
-					<input type="text" id="image_url" th:field="*{image_url}" />
-				</td>
-			</tr>
+<!--			 表紙画像のURLを格納する非表示の入力フィールド -->
+<!--			<tr style="display:none;">-->
+<!--				<th>表紙画像URL</th>-->
+<!--				<td>-->
+<!--					<input type="text" id="image_url" th:field="*{image_url}" />-->
+<!--				</td>-->
+<!--			</tr>-->
 <!--書影まわりの処理-->
+
+<tr>
+            <th>書影
+                     <button type="button" onclick="searchBookCover()" th:field="*{image_url}">表紙画像を検索</button>
+            </th>
+            <td>
+                <img id="bookCover" src="" alt="書籍の表紙" style="display:none;width:100px;">
+            </td>
+        </tr>
+
+        <!-- 書籍の候補リスト -->
+        <tr>
+            <th>(１つ選択してください)</th>
+            <td>
+                <ul id="bookList"></ul>
+            </td>
+        </tr>
+
+        <tr style="display:none;">
+            <th>表紙画像URL</th>
+            <td>
+                <input type="text" id="image_url" th:field="*{image_url}" />
+            </td>
+        </tr>
+ 
 
 <!--(12)反映ボタン-->
 			<tr>
@@ -184,6 +255,7 @@
 				</td>
 			</tr>
 		</table>
+</form>
 <!--編集用テーブル ここまで-->
 	
 	</form>

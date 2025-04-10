@@ -28,7 +28,7 @@ public class SecurityConfig {
 			//「/login」へのアクセスは認証を必要としない
 			.requestMatchers("/login").permitAll()
 			.requestMatchers("/css/**").permitAll()
-            //【管理者権限設定】url:todos/**は管理者しかアクセスできない(A.29)
+            //【管理者権限設定】url:bookrecordtable/**は管理者しかアクセスできない(A.29)
 			.requestMatchers("/bookrecordtable/**").hasAuthority("ADMIN")
 			//その他のリクエストは認証が必要
 			.anyRequest().authenticated())

@@ -163,6 +163,7 @@ button {
     cursor: pointer;
     font-size: 14px;
     border-radius: 5px;
+	font-weight: bold;
 }
 
 button:hover {
@@ -176,6 +177,7 @@ button.btn-edit {
     background-color: #f8d7da;  /* 淡いピンク */
     color: #721c24;  /* ピンクに合うダークな文字色 */
     border: 1px solid #f5c6cb;  /* 薄いピンクの枠線 */
+	font-weight: bold;
 }
 
 button.btn-edit:hover {
@@ -194,6 +196,7 @@ button.btn-delete {
     background-color: #d3d3d3;  /* 淡いグレーの背景色 */
     color: #333333;  /* ダークグレーの文字色 */
     border: 1px solid #b0b0b0;  /* 薄いグレーの枠線 */
+	font-weight: bold;
 }
 
 button.btn-delete:hover {
