@@ -57,4 +57,3 @@ authority role NOT NULL
 -- 表示名
 displayname VARCHAR(50) NOT NULL
 );
-);

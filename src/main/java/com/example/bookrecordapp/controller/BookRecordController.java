@@ -60,7 +60,8 @@ public class BookRecordController {
 	public String showBookRecords(Model model) {
 	    List<BookRecord> bookRecords = bookRecordService.findAllBookRecord(); 
 	    model.addAttribute("bookrecordtable", bookRecords);
-	    return "/templates/menu";  // ビュー名（テンプレート名）
+//	    return "/templates/menu";  // ビュー名（テンプレート名）
+	    return "bookrecord/list";
 	}
 	
 	
