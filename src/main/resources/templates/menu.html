@@ -10,78 +10,7 @@
 
 <body>
 	<h2>いい本と出会った？</h2>
-	
-<!--	<table class="table-menu" border="1" >-->
-<!--		<tr>-->
-<!--			<th colspan="2" class="table-menu">-->
-<!--				<div th:text="${#authentication.principal.displayname} + さんの読書記録を開く">-->
-<!--					ログインした人の名前を表示するエリア-->
-<!--				</div>-->
-<!--			</th>-->
-<!--		</tr>-->
-<!--		<tr>-->
-<!--			<td colspan="2">-->
-<!--				<center>-->
-<!--					<a th:href="@{/bookrecordtable}">読書リスト 一覧へ</a>-->
-<!--				</center>-->
-<!--			</td>-->
-<!--		</tr>-->
-		
-<!--		<tr>-->
-<!--			<th colspan="2" class="table-menu">-->
-<!--				新しい本を探しに行く-->
-<!--			</th>-->
-<!--		</tr>-->
-<!--		<tr>-->
-<!--			<td colspan="2">-->
-<!--				<center>-->
-<!--				<a href="https://www.e-hon.ne.jp/bec/SE/Genre?ccode=99&dcode=06" target="_blank">紙の本 ランキング</a>　<a href="https://honto.jp/ranking.html" target="_blank">電子書籍 ランキング</a>-->
-<!--				</center>-->
-<!--			</td>-->
-<!--		</tr>-->
-
-<!--	</table>-->
-	
-<!--	<table class="table-menu" border="1" >-->
-<!--			<tr>-->
-<!--				<th class="table-menu">-->
-<!--					<div th:text="${#authentication.principal.displayname} + さんの読書記録を開く">-->
-<!--						ログインした人の名前を表示するエリア-->
-<!--					</div>-->
-<!--				</th>-->
-<!--				<th class="table-menu">-->
-<!--					新しい本を探しに行く-->
-<!--				</th>-->
-<!--			</tr>-->
-<!--			<tr>-->
-<!--				<td>-->
-<!--					<center>-->
-<!--						<a th:href="@{/bookrecordtable}">読書リスト 一覧へ</a>-->
-<!--					</center>-->
-<!--				</td>-->
-<!--				<td>-->
-<!--					<center>-->
-<!--					<a href="https://www.e-hon.ne.jp/bec/SE/Genre?ccode=99&dcode=06" target="_blank">紙の本 ランキング</a>　<a href="https://honto.jp/ranking.html" target="_blank">電子書籍 ランキング</a>-->
-<!--					</center>-->
-<!--				</td>-->
-<!--			</tr>-->
-<!--	</table>-->
+	<p>リストページへリダイレクトします</p>
 
 </body>
 </html>
-
-<!--		<tr th:each="bookrecord : ${bookrecordtable}">-->
-<!--		    <td colspan="2">-->
-<!--		         bookrecord.book_status が「読書中」の場合 -->
-<!--		        <span th:if="${bookrecord.book_status == '読書中'}">-->
-<!--		            <div th:text="${bookrecord.title}"></div>-->
-<!--		        </span>-->
-<!--		    </td>-->
-<!--		</tr>-->
-
-<!--	<hr width="80%">-->
-<!--	<center>-->
-		
-<!--		10秒後に書庫へ遷移します。<br>-->
-<!--		自動で遷移しない場合はリンクをクリック → <a th:href="@{/bookrecordtable}">読書リスト 一覧へ</a>-->
-<!--	</center>-->

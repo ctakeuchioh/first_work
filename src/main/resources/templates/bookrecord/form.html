@@ -172,7 +172,7 @@
 			<tr>
 				<th>感想</th>
 					<td>
-						<textarea ros="5" cols="50" th:field="*{impression}">
+						<textarea rows="5" cols="100" th:field="*{impression}">
 						</textarea>
 						<!--バリデーションエラー用表示-->
 						<span th:if="${#fields.hasErrors('impression')}" th:errors="*{impression}" style="color: red;">

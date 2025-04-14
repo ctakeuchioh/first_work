@@ -6,6 +6,7 @@
 	<select id="selectAll" resultType="com.example.bookrecordapp.entity.BookRecord">
 	SELECT * FROM bookrecordtable
 	ORDER BY id	
+<!--	ORDER BY book_status-->
 	</select>
 	
 <!--ID検索-->
